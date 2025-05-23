@@ -1,3 +1,5 @@
+let cartQuantity = 0;
+document.querySelector(".js-cart-quantity").textContent = `${cartQuantity}`;
 function renderHtml() {
   document.querySelector(".js-products-grid").innerHTML = products
     .map(
@@ -50,9 +52,38 @@ function renderHtml() {
             Added
           </div>
 
-          <button class="add-to-cart-button button-primary">Add to Cart</button>
+          <button class="js-add-to-cart-button add-to-cart-button button-primary"
+					data-product-id='${item.id}'>Add to Cart</button>
         </div>`
     )
     .join("");
 }
+function addToCart() {
+  document.querySelector(".js-cart-quantity").textContent = `${++cartQuantity}`;
+}
+function isNewProductInCart(productId) {
+  for (let i = 0; i < cartProducts.length; i++) {
+    if (cartProducts[i].productId === productId) {
+      cartProducts[i].quantity += 1;
+      return false;
+    }
+  }
+  return true;
+}
+function makeEventListeners() {
+  document.querySelectorAll(".js-add-to-cart-button").forEach((button) => {
+    button.addEventListener("click", () => {
+      addToCart();
+      const productId = button.dataset.productId;
+      if (isNewProductInCart(productId)) {
+        cartProducts.push({
+          productId: productId,
+          quantity: 1,
+        });
+      }
+      console.log(cartProducts);
+    });
+  });
+}
 renderHtml();
+makeEventListeners();
