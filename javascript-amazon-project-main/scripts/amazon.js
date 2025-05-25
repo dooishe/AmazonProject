@@ -1,3 +1,4 @@
+import { products } from "../data/products.js";
 import { cartProducts } from "../data/cartProducts.js";
 let cartQuantity = 0;
 
