@@ -1,9 +1,10 @@
 import { products } from "../data/products.js";
 import { cartProducts } from "../data/cartProducts.js";
+import { centsToDollars } from "./utils/money.js";
 function renderHtml() {
   document.querySelector(".js-order-summary").innerHTML = cartProducts
     .map((cartItem) => {
-      const product = products.find(
+      const matchingProduct = products.find(
         (productItem) => productItem.id === cartItem.productId
       );
       return ` <div class="cart-item-container">
@@ -12,16 +13,16 @@ function renderHtml() {
             <div class="cart-item-details-grid">
               <img
                 class="product-image"
-                src="${product.image}"
+                src="${matchingProduct.image}"
               />
 
               <div class="cart-item-details">
                 <div class="product-name">
-                  ${product.name}
+                  ${matchingProduct.name}
                 </div>
-                <div class="product-price">$${(
-                  product.priceCents / 100
-                ).toFixed(2)}</div>
+                <div class="product-price">$${centsToDollars(
+                  matchingProduct.priceCents
+                )}</div>
                 <div class="product-quantity">
                   <span> Quantity: <span class="quantity-label">${
                     cartItem.quantity
@@ -44,7 +45,7 @@ function renderHtml() {
                     type="radio"
                     checked
                     class="delivery-option-input"
-                    name="delivery-option-1"
+                    name="delivery-option-${matchingProduct.id}"
                   />
                   <div>
                     <div class="delivery-option-date">Tuesday, June 21</div>
@@ -55,7 +56,7 @@ function renderHtml() {
                   <input
                     type="radio"
                     class="delivery-option-input"
-                    name="delivery-option-1"
+                    name="delivery-option-${matchingProduct.id}"
                   />
                   <div>
                     <div class="delivery-option-date">Wednesday, June 15</div>
@@ -66,7 +67,7 @@ function renderHtml() {
                   <input
                     type="radio"
                     class="delivery-option-input"
-                    name="delivery-option-1"
+                    name="delivery-option-${matchingProduct.id}"
                   />
                   <div>
                     <div class="delivery-option-date">Monday, June 13</div>
