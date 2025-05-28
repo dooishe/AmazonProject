@@ -74,8 +74,8 @@ function makeEventListeners() {
       const quantity = Number(
         document.querySelector(`.js-quantity-selector-${productId}`).value
       );
-      updateCartQuantity();
       addToCart(productId, quantity);
+      updateCartQuantity();
       const addTextAddedElement = document.querySelector(
         `.js-added-to-cart${productId}`
       );
