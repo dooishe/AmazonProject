@@ -1,8 +1,5 @@
 import { products } from "../data/products.js";
-import { cartProducts } from "../data/cartProducts.js";
-let cartQuantity = 0;
-
-document.querySelector(".js-cart-quantity").textContent = `${cartQuantity}`;
+import { cartProducts, addToCart } from "../data/cartProducts.js";
 function renderHtml() {
   document.querySelector(".js-products-grid").innerHTML = products
     .map(
@@ -61,35 +58,27 @@ function renderHtml() {
     )
     .join("");
 }
-function isNewProductInCart(productId, quantity) {
-  for (let i = 0; i < cartProducts.length; i++) {
-    if (cartProducts[i].productId === productId) {
-      cartProducts[i].quantity += quantity;
-      return false;
-    }
-  }
-  return true;
+function updateCartQuantity() {
+  let cartQuantity = 0;
+  cartProducts.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
+  document.querySelector(".js-cart-quantity").textContent = `${cartQuantity}`;
 }
 function makeEventListeners() {
   document.querySelectorAll(".js-add-to-cart-button").forEach((button) => {
     let addedMessageTimeoutId;
     button.addEventListener("click", () => {
+      let timeoutId;
       const { productId } = button.dataset;
       const quantity = Number(
         document.querySelector(`.js-quantity-selector-${productId}`).value
       );
+      updateCartQuantity();
+      addToCart(productId, quantity);
       const addTextAddedElement = document.querySelector(
         `.js-added-to-cart${productId}`
       );
-      document.querySelector(
-        ".js-cart-quantity"
-      ).textContent = `${(cartQuantity += quantity)}`;
-      if (isNewProductInCart(productId, quantity)) {
-        cartProducts.push({
-          productId,
-          quantity,
-        });
-      }
       if (addTextAddedElement.classList.contains("added-to-cart-visible")) {
         clearTimeout(addedMessageTimeoutId);
         timeoutId = setTimeout(() => {
@@ -108,5 +97,6 @@ function makeEventListeners() {
 function init() {
   renderHtml();
   makeEventListeners();
+  updateCartQuantity();
 }
 init();
