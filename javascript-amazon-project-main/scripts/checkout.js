@@ -13,7 +13,9 @@ function renderHtml() {
       const matchingProduct = products.find(
         (productItem) => productItem.id === cartItem.productId
       );
-      return ` <div class="cart-item-container">
+      return ` <div class="js-cart-item-container-${
+        matchingProduct.id
+      } cart-item-container">
             <div class="delivery-date">Delivery date: Tuesday, June 21</div>
 
             <div class="cart-item-details-grid">
@@ -87,17 +89,17 @@ function renderHtml() {
           </div>`;
     })
     .join("");
-  makeEventListeners();
 }
 function makeEventListeners() {
   document
     .querySelectorAll(".js-delete-quantity-link")
     .forEach((deleteButton) => {
       deleteButton.addEventListener("click", () => {
-        console.log("клик на кнопку делит");
         const productIdToDelete = deleteButton.dataset.productId;
         deleteFromCart(productIdToDelete);
-        renderHtml();
+        document
+          .querySelector(`.js-cart-item-container-${productIdToDelete} `)
+          .remove();
       });
     });
 }
