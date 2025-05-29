@@ -1,7 +1,13 @@
 import { products } from "../data/products.js";
-import { cartProducts } from "../data/cartProducts.js";
+import { cartProducts, deleteFromCart } from "../data/cartProducts.js";
 import { centsToDollars } from "./utils/money.js";
 function renderHtml() {
+  if (!cartProducts) {
+    document.querySelector(".js-order-summary").innerHTML = "<div></div>";
+    console.log("в корзине ничего нет");
+    return;
+  }
+  console.log("рендер");
   document.querySelector(".js-order-summary").innerHTML = cartProducts
     .map((cartItem) => {
       const matchingProduct = products.find(
@@ -30,7 +36,9 @@ function renderHtml() {
                   <span class="update-quantity-link link-primary">
                     Update
                   </span>
-                  <span class="delete-quantity-link link-primary">
+                  <span class="js-delete-quantity-link delete-quantity-link link-primary" data-product-id = "${
+                    matchingProduct.id
+                  }">
                     Delete
                   </span>
                 </div>
@@ -79,5 +87,22 @@ function renderHtml() {
           </div>`;
     })
     .join("");
+  makeEventListeners();
 }
-renderHtml();
+function makeEventListeners() {
+  document
+    .querySelectorAll(".js-delete-quantity-link")
+    .forEach((deleteButton) => {
+      deleteButton.addEventListener("click", () => {
+        console.log("клик на кнопку делит");
+        const productIdToDelete = deleteButton.dataset.productId;
+        deleteFromCart(productIdToDelete);
+        renderHtml();
+      });
+    });
+}
+function init() {
+  renderHtml();
+  makeEventListeners();
+}
+init();
