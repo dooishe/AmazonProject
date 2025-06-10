@@ -1,13 +1,12 @@
 import { products } from "../data/products.js";
-import { cartProducts, deleteFromCart } from "../data/cartProducts.js";
+import {
+  cartProducts,
+  deleteFromCart,
+  calculateCartQuantity,
+  updateQuantity,
+} from "../data/cartProducts.js";
 import { centsToDollars } from "./utils/money.js";
 function renderHtml() {
-  if (!cartProducts) {
-    document.querySelector(".js-order-summary").innerHTML = "<div></div>";
-    console.log("в корзине ничего нет");
-    return;
-  }
-  console.log("рендер");
   document.querySelector(".js-order-summary").innerHTML = cartProducts
     .map((cartItem) => {
       const matchingProduct = products.find(
@@ -32,12 +31,24 @@ function renderHtml() {
                   matchingProduct.priceCents
                 )}</div>
                 <div class="product-quantity">
-                  <span> Quantity: <span class="quantity-label">${
-                    cartItem.quantity
-                  }</span> </span>
-                  <span class="update-quantity-link link-primary">
+                  <span> Quantity:<span class="js-quantity-label-${
+                    matchingProduct.id
+                  } quantity-label"> ${cartItem.quantity}</span> </span>
+                  <span class="js-update-quantity-link update-quantity-link link-primary" data-product-id = "${
+                    matchingProduct.id
+                  }">
                     Update
                   </span>
+									<input class="js-quantity-input-${
+                    matchingProduct.id
+                  } js-quantity-input quantity-input" data-product-id = "${
+        matchingProduct.id
+      }"></input>
+									<span class="js-save-quantity-link js-save-quantity-link-${
+                    matchingProduct.id
+                  } save-quantity-link link-primary" data-product-id = "${
+        matchingProduct.id
+      }">Save</span>
                   <span class="js-delete-quantity-link delete-quantity-link link-primary" data-product-id = "${
                     matchingProduct.id
                   }">
@@ -90,6 +101,12 @@ function renderHtml() {
     })
     .join("");
 }
+function updateCartQuantity() {
+  const cartQuantity = calculateCartQuantity();
+  document.querySelector(
+    ".js-return-to-home-link"
+  ).textContent = `${cartQuantity}`;
+}
 function makeEventListeners() {
   document
     .querySelectorAll(".js-delete-quantity-link")
@@ -100,11 +117,55 @@ function makeEventListeners() {
         document
           .querySelector(`.js-cart-item-container-${productIdToDelete} `)
           .remove();
+        updateCartQuantity();
       });
     });
+  document
+    .querySelectorAll(".js-update-quantity-link")
+    .forEach((updateButton) => {
+      updateButton.addEventListener("click", () => {
+        const productId = updateButton.dataset.productId;
+        const container = document.querySelector(
+          `.js-cart-item-container-${productId}`
+        );
+        container.classList.add("is-editing-quantity");
+      });
+    });
+  document.querySelectorAll(".js-save-quantity-link").forEach((saveButton) => {
+    saveButton.addEventListener("click", () => {
+      const productId = saveButton.dataset.productId;
+      const inputElement = document.querySelector(
+        `.js-quantity-input-${productId}`
+      );
+      const inputValue = Number(inputElement.value);
+      if (inputValue <= 0 || inputValue >= 1000 || !inputValue) {
+        alert("input quantity atleast 1 and below 1000");
+        return;
+      }
+      const productQuantityElement = document.querySelector(
+        `.js-quantity-label-${productId}`
+      );
+      const container = document.querySelector(
+        `.js-cart-item-container-${productId}`
+      );
+      productQuantityElement.textContent = inputValue;
+      container.classList.remove("is-editing-quantity");
+      updateQuantity(productId, inputValue);
+      updateCartQuantity();
+    });
+  });
+  document.querySelectorAll(".js-quantity-input").forEach((inputButton) => {
+    inputButton.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        const productId = inputButton.dataset.productId;
+        document.querySelector(`.js-save-quantity-link-${productId}`).click();
+      }
+    });
+  });
 }
 function init() {
   renderHtml();
   makeEventListeners();
+  updateCartQuantity();
 }
 init();

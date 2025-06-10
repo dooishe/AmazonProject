@@ -1,5 +1,9 @@
 import { products } from "../data/products.js";
-import { cartProducts, addToCart } from "../data/cartProducts.js";
+import {
+  cartProducts,
+  addToCart,
+  calculateCartQuantity,
+} from "../data/cartProducts.js";
 import { centsToDollars } from "./utils/money.js";
 function renderHtml() {
   document.querySelector(".js-products-grid").innerHTML = products
@@ -58,10 +62,7 @@ function renderHtml() {
     .join("");
 }
 function updateCartQuantity() {
-  let cartQuantity = 0;
-  cartProducts.forEach((cartItem) => {
-    cartQuantity += cartItem.quantity;
-  });
+  const cartQuantity = calculateCartQuantity();
   document.querySelector(".js-cart-quantity").textContent = `${cartQuantity}`;
 }
 function makeEventListeners() {
