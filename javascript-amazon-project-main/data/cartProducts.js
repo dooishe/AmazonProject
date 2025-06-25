@@ -51,5 +51,6 @@ export function updateDeliveryId(productId, newDateId) {
     }
   });
   matchingItem.deliveryId = newDateId;
+  console.log(cartProducts);
   saveToLocalStorage();
 }
