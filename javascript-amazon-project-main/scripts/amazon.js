@@ -1,9 +1,5 @@
 import { products } from "../data/products.js";
-import {
-  cartProducts,
-  addToCart,
-  calculateCartQuantity,
-} from "../data/cartProducts.js";
+import { addToCart, calculateCartQuantity } from "../data/cartProducts.js";
 import { centsToDollars } from "./utils/money.js";
 function renderHtml() {
   document.querySelector(".js-products-grid").innerHTML = products
