@@ -1,6 +1,6 @@
 import { products } from "../data/products.js";
 import { addToCart, calculateCartQuantity } from "../data/cartProducts.js";
-import { centsToDollars } from "./utils/money.js";
+import money from "./utils/money.js";
 function renderHtml() {
   document.querySelector(".js-products-grid").innerHTML = products
     .map(
@@ -27,7 +27,9 @@ function renderHtml() {
             }</div>
           </div>
 
-          <div class="product-price">$${centsToDollars(item.priceCents)}</div>
+          <div class="product-price">$${money.centsToDollars(
+            item.priceCents
+          )}</div>
 
           <div class="product-quantity-container">
             <select class="js-quantity-selector-${item.id}">

@@ -1,4 +1,4 @@
-import { products } from "../../data/products.js";
+import { products, getProduct } from "../../data/products.js";
 import {
   cartProducts,
   deleteFromCart,
@@ -8,21 +8,17 @@ import {
 } from "../../data/cartProducts.js";
 import {
   deliveryOptions,
-  findMatchingDeliveryObject,
+  getDeliveryObject,
 } from "../../data/deliveryOptions.js";
 import money from "../utils/money.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 
-function renderHtml() {
+function renderOrderSummary() {
   document.querySelector(".js-order-summary").innerHTML = cartProducts
     .map((cartItem) => {
-      const matchingProduct = products.find(
-        (productItem) => productItem.id === cartItem.productId
-      );
+      const matchingProduct = getProduct(cartItem.productId);
       const deliveryId = cartItem.deliveryId;
-      const deliveryTime = `${
-        findMatchingDeliveryObject(deliveryId).deliveryTime
-      }`;
+      const deliveryTime = `${getDeliveryObject(deliveryId).deliveryTime}`;
       const today = dayjs();
       const deliveryDate = today.add(deliveryTime, "days");
       const dateString = deliveryDate.format("dddd, MMMM D");
@@ -122,10 +118,10 @@ function makeEventListeners() {
     .forEach((deleteButton) => {
       deleteButton.addEventListener("click", () => {
         const productIdToDelete = deleteButton.dataset.productId;
-        deleteFromCart(productIdToDelete);
         document
           .querySelector(`.js-cart-item-container-${productIdToDelete} `)
           .remove();
+        deleteFromCart(productIdToDelete);
         updateCartQuantity();
       });
     });
@@ -161,9 +157,9 @@ function makeEventListeners() {
       container.classList.remove("is-editing-quantity");
       updateQuantity(productId, inputValue);
       updateCartQuantity();
-      renderHtml();
+      renderOrderSummary();
     });
-  });
+  }); /*какого хуя когда первый раз заходишь на страницу и изменяешь количество всегда вылазит aler даже если количество подходит в промежуток */
   document.querySelectorAll(".js-quantity-input").forEach((inputButton) => {
     inputButton.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
@@ -182,7 +178,7 @@ function makeEventListeners() {
         const productId = product.dataset.productId;
         const targetId = target.dataset.id;
         updateDeliveryId(productId, targetId);
-        renderHtml();
+        renderOrderSummary();
       }
     })*/
   document.querySelectorAll(".js-delivery-option").forEach((element) => {
@@ -190,12 +186,11 @@ function makeEventListeners() {
       const productId = element.dataset.productId;
       const elementId = element.dataset.deliveryId;
       updateDeliveryId(productId, elementId);
-      renderHtml();
+      renderOrderSummary();
     });
   });
 }
 export function init() {
-  renderHtml();
-  makeEventListeners();
+  renderOrderSummary();
   updateCartQuantity();
 }

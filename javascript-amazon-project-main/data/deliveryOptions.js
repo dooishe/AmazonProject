@@ -17,10 +17,10 @@ export const deliveryOptions = [
   },
 ];
 
-export function findMatchingDeliveryObject(DateId) {
+export function getDeliveryObject(deliveryOptionId) {
   let matchingItem;
   deliveryOptions.forEach((dateObject) => {
-    if (dateObject.id === DateId) {
+    if (dateObject.id === deliveryOptionId) {
       matchingItem = dateObject;
     }
   });
