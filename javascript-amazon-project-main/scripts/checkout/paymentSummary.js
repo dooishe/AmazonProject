@@ -62,9 +62,7 @@ export function renderPaymentSummary() {
             Place your order
           </button>`;
 }
-function makeEventListeners() {}
 
 export function init() {
   renderPaymentSummary();
-  makeEventListeners();
 }

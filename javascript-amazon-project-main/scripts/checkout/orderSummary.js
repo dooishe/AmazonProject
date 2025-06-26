@@ -12,7 +12,7 @@ import {
 } from "../../data/deliveryOptions.js";
 import money from "../utils/money.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
-
+import { renderPaymentSummary } from "./paymentSummary.js";
 function renderOrderSummary() {
   document.querySelector(".js-order-summary").innerHTML = cartProducts
     .map((cartItem) => {
@@ -123,6 +123,7 @@ function makeEventListeners() {
           .remove();
         deleteFromCart(productIdToDelete);
         updateCartQuantity();
+        renderPaymentSummary();
       });
     });
   document
@@ -158,8 +159,9 @@ function makeEventListeners() {
       updateQuantity(productId, inputValue);
       updateCartQuantity();
       renderOrderSummary();
+      renderPaymentSummary();
     });
-  }); /*какого хуя когда первый раз заходишь на страницу и изменяешь количество всегда вылазит aler даже если количество подходит в промежуток */
+  });
   document.querySelectorAll(".js-quantity-input").forEach((inputButton) => {
     inputButton.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
@@ -187,6 +189,7 @@ function makeEventListeners() {
       const elementId = element.dataset.deliveryId;
       updateDeliveryId(productId, elementId);
       renderOrderSummary();
+      renderPaymentSummary();
     });
   });
 }
