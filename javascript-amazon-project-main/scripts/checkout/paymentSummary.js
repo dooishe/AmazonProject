@@ -4,7 +4,7 @@ import {
   calculateCartQuantity,
 } from "../../data/cartProducts.js";
 import money from "../utils/money.js";
-import { getDeliveryObject } from "../../data/deliveryOptions.js";
+import { getDeliveryOption } from "../../data/deliveryOptions.js";
 
 export function renderPaymentSummary() {
   const cartQuantity = calculateCartQuantity();
@@ -12,7 +12,7 @@ export function renderPaymentSummary() {
   let totalShippingAndHandlingCents = 0;
   cartProducts.forEach((cartItem) => {
     const matchingProductObject = getProduct(cartItem.productId);
-    const matchingDataObject = getDeliveryObject(cartItem.deliveryId);
+    const matchingDataObject = getDeliveryOption(cartItem.deliveryId);
     productsPriceCents += cartItem.quantity * matchingProductObject.priceCents;
     totalShippingAndHandlingCents += matchingDataObject.deliveryPrice;
   });
@@ -61,8 +61,4 @@ export function renderPaymentSummary() {
           <button class="place-order-button button-primary">
             Place your order
           </button>`;
-}
-
-export function init() {
-  renderPaymentSummary();
 }

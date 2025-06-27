@@ -1,5 +1,6 @@
-import { init } from "./checkout/orderSummary.js";
-import * as payment from "./checkout/paymentSummary.js";
-
-init();
-payment.init();
+import { renderOrderSummary } from "./checkout/orderSummary.js";
+import { renderPaymentSummary } from "./checkout/paymentSummary.js";
+import { renderCheckoutHeader } from "./checkout/checkoutHeader.js";
+renderCheckoutHeader();
+renderOrderSummary();
+renderPaymentSummary();
