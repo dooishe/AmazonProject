@@ -81,7 +81,7 @@ function renderDeliveryOptions(matchingProductId, cartItem) {
 
   deliveryOptions.forEach((deliveryOption) => {
     const dateString = calculateDeliveryDate(deliveryOption);
-    console.log(dateString);
+
     const priceString =
       deliveryOption.deliveryPrice === 0
         ? `FREE Shipping`

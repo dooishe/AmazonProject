@@ -1,4 +1,4 @@
-import money from "../scripts/utils/money.js";
+import money from "../../scripts/utils/money.js";
 
 describe("test suite: centsToDollars", () => {
   it("converts cents into dollars", () => {
