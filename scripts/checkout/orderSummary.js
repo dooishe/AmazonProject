@@ -35,12 +35,12 @@ export function renderOrderSummary() {
               />
 
               <div class="cart-item-details">
-                <div class="product-name">
+                <div class="product-name js-product-name-${matchingProduct.id}">
                   ${matchingProduct.name}
                 </div>
-                <div class="product-price">$${money.centsToDollars(
-                  matchingProduct.priceCents
-                )}</div>
+                <div class="product-price js-product-price-${
+                  matchingProduct.id
+                }">$${money.centsToDollars(matchingProduct.priceCents)}</div>
                 <div class="product-quantity
 								js-product-quantity-${matchingProduct.id}">
                   <span> Quantity:<span class="js-quantity-label-${
@@ -91,13 +91,17 @@ function renderDeliveryOptions(matchingProductId, cartItem) {
         ? `FREE Shipping`
         : `$${money.centsToDollars(deliveryOption.deliveryPrice)}`;
     const isChecked = deliveryOption.id === cartItem.deliveryId;
-    html += `<div class="delivery-option js-delivery-option"
+    html += `<div class="delivery-option js-delivery-option js-delivery-option-${matchingProductId}-${
+      deliveryOption.id
+    }"
 		data-product-id=${matchingProductId}
 		data-delivery-id=${deliveryOption.id}>
                   <input
                     type="radio"
                     ${isChecked ? "checked" : ""}
-                    class="delivery-option-input"
+                    class="delivery-option-input js-delivery-option-input-${matchingProductId}-${
+      deliveryOption.id
+    }"
                     name="delivery-option-${matchingProductId}"
                   />
                   <div>
@@ -181,8 +185,8 @@ function makeEventListeners() {
   document.querySelectorAll(".js-delivery-option").forEach((element) => {
     element.addEventListener("click", () => {
       const productId = element.dataset.productId;
-      const elementId = element.dataset.deliveryId;
-      updateDeliveryId(productId, elementId);
+      const deliveryId = element.dataset.deliveryId;
+      updateDeliveryId(productId, deliveryId);
       renderOrderSummary();
       renderPaymentSummary();
     });
