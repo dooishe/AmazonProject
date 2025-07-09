@@ -126,5 +126,47 @@ describe("test suite: tests for cartProducts functions", () => {
         ])
       );
     });
+    it("does nothing if updated product does not exist in the cart", () => {
+      spyOn(localStorage, "setItem").and.callFake(() => {});
+      spyOn(localStorage, "getItem").and.callFake(() => {
+        return JSON.stringify([
+          {
+            productId: "efafasdfewafaw-sdfasf-1213sef-43",
+            quantity: 1,
+            deliveryId: "1",
+          },
+        ]);
+      });
+      loadFromStorage();
+      updateDeliveryId("efafasdfewafaw-sdfasf-1213sef", "3");
+      expect(cartProducts.length).toBe(1);
+      expect(cartProducts[0].productId).toBe(
+        "efafasdfewafaw-sdfasf-1213sef-43"
+      );
+      expect(cartProducts[0].quantity).toBe(1);
+      expect(cartProducts[0].deliveryId).toBe("1");
+      expect(localStorage.setItem).toHaveBeenCalledTimes(0);
+    });
+    it("does nothing if delivery option does not exist", () => {
+      spyOn(localStorage, "setItem").and.callFake(() => {});
+      spyOn(localStorage, "getItem").and.callFake(() => {
+        return JSON.stringify([
+          {
+            productId: "efafasdfewafaw-sdfasf-1213sef-43",
+            quantity: 1,
+            deliveryId: "1",
+          },
+        ]);
+      });
+      loadFromStorage();
+      updateDeliveryId("efafasdfewafaw-sdfasf-1213sef-43", "4");
+      expect(cartProducts.length).toBe(1);
+      expect(cartProducts[0].productId).toBe(
+        "efafasdfewafaw-sdfasf-1213sef-43"
+      );
+      expect(cartProducts[0].quantity).toBe(1);
+      expect(cartProducts[0].deliveryId).toBe("1");
+      expect(localStorage.setItem).toHaveBeenCalledTimes(0);
+    });
   });
 });

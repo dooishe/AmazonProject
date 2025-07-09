@@ -18,7 +18,15 @@ export const deliveryOptions = [
     deliveryTime: 1,
   },
 ];
-
+export function isValidOptionId(optionId) {
+  let flag = false;
+  deliveryOptions.forEach((devOpt) => {
+    if (devOpt.id === optionId) {
+      flag = true;
+    }
+  });
+  return flag;
+}
 export function getDeliveryOption(deliveryOptionId) {
   let matchingItem;
   deliveryOptions.forEach((dateObject) => {

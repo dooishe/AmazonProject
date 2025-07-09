@@ -1,3 +1,4 @@
+import { isValidOptionId } from "./deliveryOptions.js";
 export let cartProducts;
 loadFromStorage();
 export function loadFromStorage() {
@@ -54,6 +55,8 @@ export function updateDeliveryId(productId, newDateId) {
       matchingItem = cartItem;
     }
   });
+  if (!matchingItem) return;
+  if (!isValidOptionId(newDateId)) return;
   matchingItem.deliveryId = newDateId;
   saveToLocalStorage();
 }
