@@ -1,4 +1,3 @@
-import { cartProducts } from "./cartProducts.js";
 import { isValidOptionId } from "./deliveryOptions.js";
 function CartProducts(localStorageKey) {
   const cartProducts = {
@@ -67,6 +66,7 @@ function CartProducts(localStorageKey) {
   };
   return cartProducts;
 }
+
 const cart = CartProducts("cart-oop");
 const buisnessCart = CartProducts("cart-buisness");
 cart.loadFromStorage();
