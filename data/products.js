@@ -28,6 +28,22 @@ export class Product {
   getPrice() {
     return centsToDollars(this.priceCents);
   }
+  extraInfoHtml() {
+    return "";
+  }
+}
+
+export class Clothing extends Product {
+  sizeChartLink;
+  constructor(productDetails) {
+    super(productDetails);
+    this.sizeChartLink = productDetails.sizeChartLink;
+  }
+  extraInfoHtml() {
+    return `
+		<a href="${this.sizeChartLink}">Size chart</a>
+		`;
+  }
 }
 
 export const products = [
@@ -513,5 +529,6 @@ export const products = [
     keywords: ["sweaters", "hoodies", "apparel", "mens"],
   },
 ].map((productDetails) => {
+  if (productDetails.type === "clothing") return new Clothing(productDetails);
   return new Product(productDetails);
 });
