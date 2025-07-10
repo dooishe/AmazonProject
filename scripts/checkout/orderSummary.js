@@ -10,7 +10,7 @@ import {
   getDeliveryOption,
   calculateDeliveryDate,
 } from "../../data/deliveryOptions.js";
-import money from "../utils/money.js";
+import { centsToDollars } from "../utils/money.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
 import { renderCheckoutHeader } from "./checkoutHeader.js";
 export function renderOrderSummary() {
@@ -40,7 +40,7 @@ export function renderOrderSummary() {
                 </div>
                 <div class="product-price js-product-price-${
                   matchingProduct.id
-                }">$${money.centsToDollars(matchingProduct.priceCents)}</div>
+                }">$${matchingProduct.getPrice()}</div>
                 <div class="product-quantity
 								js-product-quantity-${matchingProduct.id}">
                   <span> Quantity:<span class="js-quantity-label-${
@@ -89,7 +89,7 @@ function renderDeliveryOptions(matchingProductId, cartItem) {
     const priceString =
       deliveryOption.deliveryPrice === 0
         ? `FREE Shipping`
-        : `$${money.centsToDollars(deliveryOption.deliveryPrice)}`;
+        : `$${centsToDollars(deliveryOption.deliveryPrice)}`;
     const isChecked = deliveryOption.id === cartItem.deliveryId;
     html += `<div class="delivery-option js-delivery-option js-delivery-option-${matchingProductId}-${
       deliveryOption.id

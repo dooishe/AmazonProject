@@ -1,38 +1,35 @@
 import { products } from "../data/products.js";
 import { addToCart, calculateCartQuantity } from "../data/cartProducts.js";
-import money from "./utils/money.js";
 function renderHtml() {
   document.querySelector(".js-products-grid").innerHTML = products
     .map(
-      (item) =>
+      (product) =>
         ` <div class="product-container">
           <div class="product-image-container">
             <img
               class="product-image"
-              src="${item.image}"
+              src="${product.image}"
             />
           </div>
 
           <div class="product-name limit-text-to-2-lines">
-            ${item.name}
+            ${product.name}
           </div>
 
           <div class="product-rating-container">
             <img
               class="product-rating-stars"
-              src="images/ratings/rating-${item.rating.stars * 10}.png"
+              src=${product.getStarsUrl()}
             />
             <div class="product-rating-count link-primary">${
-              item.rating.count
+              product.rating.count
             }</div>
           </div>
 
-          <div class="product-price">$${money.centsToDollars(
-            item.priceCents
-          )}</div>
+          <div class="product-price">$${product.getPrice()}</div>
 
           <div class="product-quantity-container">
-            <select class="js-quantity-selector-${item.id}">
+            <select class="js-quantity-selector-${product.id}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -48,13 +45,13 @@ function renderHtml() {
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart js-added-to-cart${item.id}">
+          <div class="added-to-cart js-added-to-cart${product.id}">
             <img src="images/icons/checkmark.png" />
             Added
           </div>
 
           <button class="js-add-to-cart-button add-to-cart-button button-primary"
-					data-product-id='${item.id}'>Add to Cart</button>
+					data-product-id='${product.id}'>Add to Cart</button>
         </div>`
     )
     .join("");

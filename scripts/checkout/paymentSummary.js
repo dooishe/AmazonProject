@@ -3,7 +3,7 @@ import {
   cartProducts,
   calculateCartQuantity,
 } from "../../data/cartProducts.js";
-import money from "../utils/money.js";
+import { centsToDollars } from "../utils/money.js";
 import { getDeliveryOption } from "../../data/deliveryOptions.js";
 
 export function renderPaymentSummary() {
@@ -25,35 +25,35 @@ export function renderPaymentSummary() {
   ).innerHTML = `<div class="payment-summary-title">Order Summary</div>
           <div class="payment-summary-row">
             <div>Items (${cartQuantity}):</div>
-            <div class="payment-summary-money ">$${money.centsToDollars(
+            <div class="payment-summary-money ">$${centsToDollars(
               productsPriceCents
             )}</div>
           </div>
 
           <div class="payment-summary-row">
             <div>Shipping &amp; handling:</div>
-            <div class="payment-summary-money js-payment-shipping-and-handling">$${money.centsToDollars(
+            <div class="payment-summary-money js-payment-shipping-and-handling">$${centsToDollars(
               totalShippingAndHandlingCents
             )}</div>
           </div>
 
           <div class="payment-summary-row subtotal-row">
             <div>Total before tax:</div>
-            <div class="payment-summary-money">$${money.centsToDollars(
+            <div class="payment-summary-money">$${centsToDollars(
               totalBeforeTaxCents
             )}</div>
           </div>
 
           <div class="payment-summary-row">
             <div>Estimated tax (10%):</div>
-            <div class="payment-summary-money">$${money.centsToDollars(
+            <div class="payment-summary-money">$${centsToDollars(
               estimatedTaxCents
             )}</div>
           </div>
 
           <div class="payment-summary-row total-row">
             <div>Order total:</div>
-            <div class="payment-summary-money js-payment-total-price">$${money.centsToDollars(
+            <div class="payment-summary-money js-payment-total-price">$${centsToDollars(
               totalPriceCents
             )}</div>
           </div>
