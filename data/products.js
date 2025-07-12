@@ -46,6 +46,22 @@ export class Clothing extends Product {
   }
 }
 
+export class Appliance extends Product {
+  instructionsLink;
+  warrantyLink;
+  constructor(productDetails) {
+    super(productDetails);
+    this.instructionsLink = productDetails.instructionsLink;
+    this.warrantyLink = productDetails.warrantyLink;
+  }
+  extraInfoHtml() {
+    return `
+		<a href="${this.instructionsLink}">Instructions</a>
+		<a href="${this.warrantyLink}">Warranty</a>
+		`;
+  }
+}
+
 export const products = [
   {
     id: "efafasdfewafaw-sdfasf-1213sef-43",
@@ -101,6 +117,9 @@ export const products = [
       stars: 5,
       count: 2197,
     },
+    type: "appliance",
+    instructionsLink: "images/appliance-instructions.png",
+    warrantyLink: "images/appliance-warranty.png",
     priceCents: 1899,
     keywords: ["toaster", "kitchen", "appliances"],
   },
@@ -235,6 +254,9 @@ export const products = [
       stars: 5,
       count: 846,
     },
+    type: "appliance",
+    instructionsLink: "images/appliance-instructions.png",
+    warrantyLink: "images/appliance-warranty.png",
     priceCents: 3074,
     keywords: ["water boiler", "appliances", "kitchen"],
   },
@@ -449,6 +471,9 @@ export const products = [
       count: 1211,
     },
     priceCents: 2250,
+    type: "appliance",
+    instructionsLink: "images/appliance-instructions.png",
+    warrantyLink: "images/appliance-warranty.png",
     keywords: ["coffeemakers", "kitchen", "appliances"],
   },
   {
@@ -493,6 +518,9 @@ export const products = [
       count: 3,
     },
     priceCents: 10747,
+    type: "appliance",
+    instructionsLink: "images/appliance-instructions.png",
+    warrantyLink: "images/appliance-warranty.png",
     keywords: ["food blenders", "kitchen", "appliances"],
   },
   {
@@ -530,5 +558,7 @@ export const products = [
   },
 ].map((productDetails) => {
   if (productDetails.type === "clothing") return new Clothing(productDetails);
+  else if (productDetails.type === "appliance")
+    return new Appliance(productDetails);
   return new Product(productDetails);
 });
