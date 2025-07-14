@@ -1,5 +1,10 @@
-import { products } from "../data/products.js";
+import { products, loadProducts } from "../data/products.js";
 import { cart } from "../data/cart.js";
+loadProducts(() => {
+  renderHtml();
+  makeEventListeners();
+  updateCartQuantity();
+});
 function renderHtml() {
   document.querySelector(".js-products-grid").innerHTML = products
     .map(
@@ -89,9 +94,3 @@ function makeEventListeners() {
     });
   });
 }
-function init() {
-  renderHtml();
-  makeEventListeners();
-  updateCartQuantity();
-}
-init();
