@@ -1,5 +1,5 @@
 import { products } from "../data/products.js";
-import { addToCart, calculateCartQuantity } from "../data/cartProducts.js";
+import { cart } from "../data/cart.js";
 function renderHtml() {
   document.querySelector(".js-products-grid").innerHTML = products
     .map(
@@ -57,7 +57,7 @@ function renderHtml() {
     .join("");
 }
 function updateCartQuantity() {
-  const cartQuantity = calculateCartQuantity();
+  const cartQuantity = cart.calculateCartQuantity();
   document.querySelector(".js-cart-quantity").textContent = `${cartQuantity}`;
 }
 function makeEventListeners() {
@@ -69,7 +69,7 @@ function makeEventListeners() {
       const quantity = Number(
         document.querySelector(`.js-quantity-selector-${productId}`).value
       );
-      addToCart(productId, quantity);
+      cart.addToCart(productId, quantity);
       updateCartQuantity();
       const addTextAddedElement = document.querySelector(
         `.js-added-to-cart${productId}`

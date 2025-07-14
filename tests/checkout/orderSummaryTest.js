@@ -1,6 +1,5 @@
 import { renderOrderSummary } from "../../scripts/checkout/orderSummary.js";
-import { loadFromStorage } from "../../data/cartProducts.js";
-import { cartProducts } from "../../data/cartProducts.js";
+import { cart } from "../data/class-cart.js";
 describe("test suite: integration test for orderSummary page", () => {
   describe("test suite: renderOrderSummary", () => {
     const productId1 = "efafasdfewafaw-sdfasf-1213sef-43";
@@ -16,21 +15,18 @@ describe("test suite: integration test for orderSummary page", () => {
 		<div class="js-checkout-header"></div>
 		<div class="js-order-summary"></div>
 		<div class="js-payment-summary"></div>`;
-      spyOn(localStorage, "getItem").and.callFake(() => {
-        return JSON.stringify([
-          {
-            productId: productId1,
-            quantity: 2,
-            deliveryId: "1",
-          },
-          {
-            productId: productId2,
-            quantity: 1,
-            deliveryId: "2",
-          },
-        ]);
-      });
-      loadFromStorage();
+      cart.cartItems = [
+        {
+          productId: productId1,
+          quantity: 2,
+          deliveryId: "1",
+        },
+        {
+          productId: productId2,
+          quantity: 1,
+          deliveryId: "2",
+        },
+      ];
       renderOrderSummary();
     });
     afterEach(() => {

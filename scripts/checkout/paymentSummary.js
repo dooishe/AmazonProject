@@ -1,18 +1,16 @@
 import { getProduct } from "../../data/products.js";
-import {
-  cartProducts,
-  calculateCartQuantity,
-} from "../../data/cartProducts.js";
+import { cart } from "../../data/cart.js";
 import { centsToDollars } from "../utils/money.js";
-import { getDeliveryOption } from "../../data/deliveryOptions.js";
-
+import { deliveryOptions } from "../../data/deliveryOptions.js";
 export function renderPaymentSummary() {
-  const cartQuantity = calculateCartQuantity();
+  const cartQuantity = cart.calculateCartQuantity();
   let productsPriceCents = 0;
   let totalShippingAndHandlingCents = 0;
-  cartProducts.forEach((cartItem) => {
+  cart.cartItems.forEach((cartItem) => {
     const matchingProductObject = getProduct(cartItem.productId);
-    const matchingDataObject = getDeliveryOption(cartItem.deliveryId);
+    const matchingDataObject = deliveryOptions.getDeliveryOption(
+      cartItem.deliveryId
+    );
     productsPriceCents += cartItem.quantity * matchingProductObject.priceCents;
     totalShippingAndHandlingCents += matchingDataObject.deliveryPrice;
   });

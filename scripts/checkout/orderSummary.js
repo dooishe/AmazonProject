@@ -1,25 +1,16 @@
 import { getProduct } from "../../data/products.js";
-import {
-  cartProducts,
-  deleteFromCart,
-  updateQuantity,
-  updateDeliveryId,
-} from "../../data/cartProducts.js";
-import {
-  deliveryOptions,
-  getDeliveryOption,
-  calculateDeliveryDate,
-} from "../../data/deliveryOptions.js";
+import { cart } from "../../data/cart.js";
+import { deliveryOptions } from "../../data/deliveryOptions.js";
 import { centsToDollars } from "../utils/money.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
 import { renderCheckoutHeader } from "./checkoutHeader.js";
 export function renderOrderSummary() {
-  document.querySelector(".js-order-summary").innerHTML = cartProducts
+  document.querySelector(".js-order-summary").innerHTML = cart.cartItems
     .map((cartItem) => {
       const matchingProduct = getProduct(cartItem.productId);
       const deliveryId = cartItem.deliveryId;
-      const deliveryOption = getDeliveryOption(deliveryId);
-      const dateString = calculateDeliveryDate(deliveryOption);
+      const deliveryOption = deliveryOptions.getDeliveryOption(deliveryId);
+      const dateString = deliveryOptions.calculateDeliveryDate(deliveryOption);
 
       return ` <div class="js-cart-item-container-${
         matchingProduct.id
@@ -83,8 +74,8 @@ export function renderOrderSummary() {
 function renderDeliveryOptions(matchingProductId, cartItem) {
   let html = "";
 
-  deliveryOptions.forEach((deliveryOption) => {
-    const dateString = calculateDeliveryDate(deliveryOption);
+  deliveryOptions.deliveryOptionsList.forEach((deliveryOption) => {
+    const dateString = deliveryOptions.calculateDeliveryDate(deliveryOption);
 
     const priceString =
       deliveryOption.deliveryPrice === 0
@@ -119,7 +110,7 @@ function makeEventListeners() {
     .forEach((deleteButton) => {
       deleteButton.addEventListener("click", () => {
         const productIdToDelete = deleteButton.dataset.productId;
-        deleteFromCart(productIdToDelete);
+        cart.deleteFromCart(productIdToDelete);
         renderCheckoutHeader();
         renderOrderSummary();
         renderPaymentSummary();
@@ -155,7 +146,7 @@ function makeEventListeners() {
       );
       productQuantityElement.textContent = inputValue;
       container.classList.remove("is-editing-quantity");
-      updateQuantity(productId, inputValue);
+      cart.updateQuantity(productId, inputValue);
       renderCheckoutHeader();
       renderOrderSummary();
       renderPaymentSummary();
@@ -186,7 +177,7 @@ function makeEventListeners() {
     element.addEventListener("click", () => {
       const productId = element.dataset.productId;
       const deliveryId = element.dataset.deliveryId;
-      updateDeliveryId(productId, deliveryId);
+      cart.updateDeliveryId(productId, deliveryId);
       renderOrderSummary();
       renderPaymentSummary();
     });
