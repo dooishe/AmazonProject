@@ -1,4 +1,4 @@
-import { cart } from "../../data/class-cart.js";
+import { cart } from "../../data/cart.js";
 describe("test suite: tests for cart methods", () => {
   describe("test suite: addToCart", () => {
     beforeEach(() => {
@@ -10,7 +10,7 @@ describe("test suite: tests for cart methods", () => {
       expect(cart.cartItems.length).toBe(1);
       expect(localStorage.setItem).toHaveBeenCalledTimes(1);
       expect(localStorage.setItem).toHaveBeenCalledWith(
-        "cartProducts",
+        "cart",
         JSON.stringify([
           {
             productId: "efafasdfewafaw-sdfasf-1213sef-43",
@@ -37,7 +37,7 @@ describe("test suite: tests for cart methods", () => {
       expect(cart.cartItems.length).toBe(1);
       expect(localStorage.setItem).toHaveBeenCalledTimes(1);
       expect(localStorage.setItem).toHaveBeenCalledWith(
-        "cartProducts",
+        "cart",
         JSON.stringify([
           {
             productId: "efafasdfewafaw-sdfasf-1213sef-43",
@@ -68,7 +68,7 @@ describe("test suite: tests for cart methods", () => {
       expect(cart.cartItems.length).toBe(0);
       expect(localStorage.setItem).toHaveBeenCalledTimes(1);
       expect(localStorage.setItem).toHaveBeenCalledWith(
-        "cartProducts",
+        "cart",
         JSON.stringify([])
       );
     });
@@ -81,7 +81,7 @@ describe("test suite: tests for cart methods", () => {
       expect(cart.cartItems[0].quantity).toBe(1);
       expect(localStorage.setItem).toHaveBeenCalledTimes(1);
       expect(localStorage.setItem).toHaveBeenCalledWith(
-        "cartProducts",
+        "cart",
         JSON.stringify([
           {
             productId: "efafasdfewafaw-sdfasf-1213sef-43",
@@ -113,7 +113,7 @@ describe("test suite: tests for cart methods", () => {
       expect(cart.cartItems[0].deliveryId).toBe("3");
       expect(localStorage.setItem).toHaveBeenCalledTimes(1);
       expect(localStorage.setItem).toHaveBeenCalledWith(
-        "cartProducts",
+        "cart",
         JSON.stringify([
           {
             productId: "efafasdfewafaw-sdfasf-1213sef-43",

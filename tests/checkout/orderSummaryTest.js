@@ -1,11 +1,17 @@
 import { renderOrderSummary } from "../../scripts/checkout/orderSummary.js";
-import { cart } from "../data/class-cart.js";
+import { cart } from "../../data/cart.js";
+import { loadProducts } from "../../data/products.js";
 describe("test suite: integration test for orderSummary page", () => {
   describe("test suite: renderOrderSummary", () => {
-    const productId1 = "efafasdfewafaw-sdfasf-1213sef-43";
-    const productId2 = "15b6fc6f-327a-4ec4-896f-486349e85a3d";
-    const productName1 = "BMW M5 black edition";
-    const productName2 = "Intermediate Size Basketball";
+    const productId1 = "e43638ce-6aa0-4b85-b27f-e1d07eb678c6";
+    const productId2 = "54e0eccd-8f36-462b-b68a-8182611d9add";
+    const productName1 = "Black and Gray Athletic Cotton Socks - 6 Pairs";
+    const productName2 = "2 Slot Toaster - Black";
+    beforeAll((done) => {
+      loadProducts(() => {
+        done();
+      });
+    });
     beforeEach(() => {
       const container = document.querySelector(".js-test-container");
       if (!container) {
@@ -50,10 +56,10 @@ describe("test suite: integration test for orderSummary page", () => {
       ).toBe(productName2);
       expect(
         document.querySelector(`.js-product-price-${productId1}`).innerText
-      ).toBe("$62500.00");
+      ).toBe("$10.90");
       expect(
         document.querySelector(`.js-product-price-${productId2}`).innerText
-      ).toBe("$20.95");
+      ).toBe("$18.99");
     });
     it("removes a product", () => {
       spyOn(localStorage, "setItem").and.callFake(() => {});
@@ -67,16 +73,16 @@ describe("test suite: integration test for orderSummary page", () => {
       expect(
         document.querySelector(`.js-cart-item-container-${productId2}`)
       ).not.toBeNull();
-      expect(cartProducts.length).toBe(1);
-      expect(cartProducts[0].productId).toBe(
-        "15b6fc6f-327a-4ec4-896f-486349e85a3d"
+      expect(cart.cartItems.length).toBe(1);
+      expect(cart.cartItems[0].productId).toBe(
+        "54e0eccd-8f36-462b-b68a-8182611d9add"
       );
       expect(
         document.querySelector(`.js-product-name-${productId2}`).innerText
       ).toBe(productName2);
       expect(
         document.querySelector(`.js-product-price-${productId2}`).innerText
-      ).toBe("$20.95");
+      ).toBe("$18.99");
     });
     it("updating the delivery option", () => {
       document.querySelector(`.js-delivery-option-${productId1}-${3}`).click();
@@ -87,13 +93,13 @@ describe("test suite: integration test for orderSummary page", () => {
       expect(document.querySelectorAll(".js-cart-item-container").length).toBe(
         2
       );
-      expect(cartProducts[0].productId).toBe(productId1);
-      expect(cartProducts[0].deliveryId).toBe("3");
+      expect(cart.cartItems[0].productId).toBe(productId1);
+      expect(cart.cartItems[0].deliveryId).toBe("3");
       expect(
         document.querySelector(".js-payment-shipping-and-handling").innerText
       ).toBe("$4.99");
       expect(document.querySelector(".js-payment-total-price").innerText).toBe(
-        "$137528.53"
+        "$50.36"
       );
     });
   });

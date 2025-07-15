@@ -4,6 +4,7 @@ import { deliveryOptions } from "../../data/deliveryOptions.js";
 import { centsToDollars } from "../utils/money.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
 import { renderCheckoutHeader } from "./checkoutHeader.js";
+
 export function renderOrderSummary() {
   document.querySelector(".js-order-summary").innerHTML = cart.cartItems
     .map((cartItem) => {
