@@ -1,6 +1,6 @@
-import { products, loadProducts } from "../data/products.js";
+import { products, loadProductsFetch } from "../data/products.js";
 import { cart } from "../data/cart.js";
-loadProducts(() => {
+loadProductsFetch().then(() => {
   renderHtml();
   makeEventListeners();
   updateCartQuantity();
