@@ -5,7 +5,13 @@ import { loadProductsFetch } from "../data/products.js";
 import { loadCartFetch } from "../data/cart.js";
 
 async function loadPage() {
-  await Promise.all([loadProductsFetch(), loadCartFetch()]);
+  try {
+    await Promise.all([loadProductsFetch(), loadCartFetch()]);
+  } catch (er) {
+    console.log("Unexpected errorrr. Please try again later");
+    console.log(er);
+  }
+
   renderCheckoutHeader();
   renderOrderSummary();
   renderPaymentSummary();
