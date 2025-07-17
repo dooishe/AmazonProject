@@ -4,8 +4,10 @@ import { renderCheckoutHeader } from "./checkout/checkoutHeader.js";
 import { loadProductsFetch } from "../data/products.js";
 import { loadCartFetch } from "../data/cart.js";
 
-Promise.all([loadProductsFetch(), loadCartFetch()]).then(() => {
+async function loadPage() {
+  await Promise.all([loadProductsFetch(), loadCartFetch()]);
   renderCheckoutHeader();
   renderOrderSummary();
   renderPaymentSummary();
-});
+}
+loadPage();
