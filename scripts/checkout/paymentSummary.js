@@ -2,6 +2,7 @@ import { getProduct } from "../../data/products.js";
 import { cart } from "../../data/cart.js";
 import { centsToDollars } from "../utils/money.js";
 import { deliveryOptions } from "../../data/deliveryOptions.js";
+import { addOrder } from "../../data/orders.js";
 export function renderPaymentSummary() {
   const cartQuantity = cart.calculateCartQuantity();
   let productsPriceCents = 0;
@@ -55,7 +56,33 @@ export function renderPaymentSummary() {
             )}</div>
           </div>
 
-          <button class="place-order-button button-primary">
+          <button class="js-place-order-button place-order-button button-primary">
             Place your order
           </button>`;
+  makeEventListeners();
+}
+function makeEventListeners() {
+  document
+    .querySelector(".js-place-order-button")
+    .addEventListener("click", async () => {
+      try {
+        if (cart.cartItems.length === 0) return;
+        const response = await fetch("https://supersimplebackend.dev/orders", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ cart: cart.cartItems }),
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const order = await response.json();
+        addOrder(order);
+        window.location.href = "/orders.html";
+      } catch (error) {
+        console.log("Error! can't make order");
+        console.log(error);
+      }
+    });
 }
