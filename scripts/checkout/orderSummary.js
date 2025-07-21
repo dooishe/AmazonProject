@@ -6,7 +6,8 @@ import { renderPaymentSummary } from "./paymentSummary.js";
 import { renderCheckoutHeader } from "./checkoutHeader.js";
 
 export function renderOrderSummary() {
-  document.querySelector(".js-order-summary").innerHTML = cart.cartItems
+  document.querySelector(".js-order-summary").innerHTML = cart
+    .getCartItems()
     .map((cartItem) => {
       const matchingProduct = getProduct(cartItem.productId);
       const deliveryId = cartItem.deliveryId;

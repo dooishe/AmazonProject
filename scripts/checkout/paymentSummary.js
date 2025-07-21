@@ -7,7 +7,7 @@ export function renderPaymentSummary() {
   const cartQuantity = cart.calculateCartQuantity();
   let productsPriceCents = 0;
   let totalShippingAndHandlingCents = 0;
-  cart.cartItems.forEach((cartItem) => {
+  cart.getCartItems().forEach((cartItem) => {
     const matchingProductObject = getProduct(cartItem.productId);
     const matchingDataObject = deliveryOptions.getDeliveryOption(
       cartItem.deliveryId
@@ -67,13 +67,13 @@ function makeEventListeners() {
     .querySelector(".js-place-order-button")
     .addEventListener("click", async () => {
       try {
-        if (cart.cartItems.length === 0) return;
+        if (cart.getCartItems().length === 0) return;
         const response = await fetch("https://supersimplebackend.dev/orders", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ cart: cart.cartItems }),
+          body: JSON.stringify({ cart: cart.getCartItems() }),
         });
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);

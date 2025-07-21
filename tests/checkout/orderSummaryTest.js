@@ -19,7 +19,7 @@ describe("test suite: integration test for orderSummary page", () => {
 		<div class="js-checkout-header"></div>
 		<div class="js-order-summary"></div>
 		<div class="js-payment-summary"></div>`;
-      cart.cartItems = [
+      cart.setCartItems([
         {
           productId: productId1,
           quantity: 2,
@@ -30,7 +30,7 @@ describe("test suite: integration test for orderSummary page", () => {
           quantity: 1,
           deliveryId: "2",
         },
-      ];
+      ]);
       renderOrderSummary();
     });
     afterEach(() => {
@@ -71,8 +71,8 @@ describe("test suite: integration test for orderSummary page", () => {
       expect(
         document.querySelector(`.js-cart-item-container-${productId2}`)
       ).not.toBeNull();
-      expect(cart.cartItems.length).toBe(1);
-      expect(cart.cartItems[0].productId).toBe(
+      expect(cart.getCartItems().length).toBe(1);
+      expect(cart.getCartItems()[0].productId).toBe(
         "54e0eccd-8f36-462b-b68a-8182611d9add"
       );
       expect(
@@ -91,8 +91,8 @@ describe("test suite: integration test for orderSummary page", () => {
       expect(document.querySelectorAll(".js-cart-item-container").length).toBe(
         2
       );
-      expect(cart.cartItems[0].productId).toBe(productId1);
-      expect(cart.cartItems[0].deliveryId).toBe("3");
+      expect(cart.getCartItems()[0].productId).toBe(productId1);
+      expect(cart.getCartItems()[0].deliveryId).toBe("3");
       expect(
         document.querySelector(".js-payment-shipping-and-handling").innerText
       ).toBe("$4.99");

@@ -1,6 +1,6 @@
 import { deliveryOptions } from "./deliveryOptions.js";
 export class Cart {
-  cartItems;
+  #cartItems;
   #localStorageKey;
 
   constructor(localStorageKey) {
@@ -8,29 +8,32 @@ export class Cart {
     this.#loadFromStorage();
   }
   #loadFromStorage() {
-    this.cartItems =
+    this.#cartItems =
       JSON.parse(localStorage.getItem(this.#localStorageKey)) || [];
   }
   #saveToLocalStorage() {
-    localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems));
+    localStorage.setItem(
+      this.#localStorageKey,
+      JSON.stringify(this.#cartItems)
+    );
   }
   deleteFromCart(productId) {
-    const newCart = this.cartItems.filter(
+    const newCart = this.#cartItems.filter(
       (item) => item.productId !== productId
     );
-    this.cartItems = newCart;
+    this.#cartItems = newCart;
     this.#saveToLocalStorage();
   }
   calculateCartQuantity() {
     let cartQuantity = 0;
-    this.cartItems.forEach((cartItem) => {
+    this.#cartItems.forEach((cartItem) => {
       cartQuantity += cartItem.quantity;
     });
     return cartQuantity;
   }
   addToCart(productId, quantity) {
     let matchingItem;
-    this.cartItems.forEach((cartItem) => {
+    this.#cartItems.forEach((cartItem) => {
       if (cartItem.productId === productId) {
         matchingItem = cartItem;
       }
@@ -38,7 +41,7 @@ export class Cart {
     if (matchingItem) {
       matchingItem.quantity += quantity;
     } else {
-      this.cartItems.push({
+      this.#cartItems.push({
         productId,
         quantity: 1,
         deliveryId: "1",
@@ -48,7 +51,7 @@ export class Cart {
   }
   updateQuantity(productId, newQuantity) {
     let matchingItem;
-    this.cartItems.forEach((cartItem) => {
+    this.#cartItems.forEach((cartItem) => {
       if (cartItem.productId === productId) {
         matchingItem = cartItem;
       }
@@ -59,7 +62,7 @@ export class Cart {
   updateDeliveryId(productId, newDateId) {
     let matchingItem;
 
-    this.cartItems.forEach((cartItem) => {
+    this.#cartItems.forEach((cartItem) => {
       if (cartItem.productId === productId) {
         matchingItem = cartItem;
       }
@@ -68,6 +71,12 @@ export class Cart {
     if (!deliveryOptions.isValidOptionId(newDateId)) return;
     matchingItem.deliveryId = newDateId;
     this.#saveToLocalStorage();
+  }
+  getCartItems() {
+    return this.#cartItems;
+  }
+  setCartItems(cartItems) {
+    this.#cartItems = cartItems;
   }
 }
 export const cart = new Cart("cart");
