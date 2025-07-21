@@ -1,13 +1,16 @@
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 import { isSatSun } from "../scripts/utils/day.js";
 class DeliveryOptions {
-  deliveryOptionsList;
+  #deliveryOptionsList;
   constructor(deliveryOptionsList) {
-    this.deliveryOptionsList = deliveryOptionsList;
+    this.#deliveryOptionsList = deliveryOptionsList;
+  }
+  getDeliveryOptionsList() {
+    return this.#deliveryOptionsList;
   }
   isValidOptionId(optionId) {
     let flag = false;
-    this.deliveryOptionsList.forEach((devOpt) => {
+    this.#deliveryOptionsList.forEach((devOpt) => {
       if (devOpt.id === optionId) {
         flag = true;
       }
@@ -16,7 +19,7 @@ class DeliveryOptions {
   }
   getDeliveryOption(deliveryOptionId) {
     let matchingItem;
-    this.deliveryOptionsList.forEach((dateObject) => {
+    this.#deliveryOptionsList.forEach((dateObject) => {
       if (dateObject.id === deliveryOptionId) {
         matchingItem = dateObject;
       }

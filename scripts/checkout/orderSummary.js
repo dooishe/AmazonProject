@@ -58,7 +58,7 @@ export function renderOrderSummary() {
 function renderDeliveryOptions(matchingProductId, cartItem) {
   let html = "";
 
-  deliveryOptions.deliveryOptionsList.forEach((deliveryOption) => {
+  deliveryOptions.getDeliveryOptionsList().forEach((deliveryOption) => {
     const dateString = deliveryOptions.calculateDeliveryDate(deliveryOption);
 
     const priceString =
