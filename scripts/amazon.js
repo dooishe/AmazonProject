@@ -1,11 +1,11 @@
 import { products, loadProductsFetch } from "../data/products.js";
 import { cart } from "../data/cart.js";
 loadProductsFetch().then(() => {
-  renderHtml();
+  renderAmazon();
   makeEventListeners();
   updateCartQuantity();
 });
-function renderHtml() {
+function renderAmazon() {
   document.querySelector(".js-products-grid").innerHTML = products
     .map(
       (product) =>
