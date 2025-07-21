@@ -2,7 +2,7 @@ import { getProduct } from "../../data/products.js";
 import { cart } from "../../data/cart.js";
 import { centsToDollars } from "../utils/money.js";
 import { deliveryOptions } from "../../data/deliveryOptions.js";
-import { addOrder } from "../../data/orders.js";
+import { orders } from "../../data/orders.js";
 export function renderPaymentSummary() {
   const cartQuantity = cart.calculateCartQuantity();
   let productsPriceCents = 0;
@@ -12,7 +12,8 @@ export function renderPaymentSummary() {
     const matchingDataObject = deliveryOptions.getDeliveryOption(
       cartItem.deliveryId
     );
-    productsPriceCents += cartItem.quantity * matchingProductObject.priceCents;
+    productsPriceCents +=
+      cartItem.quantity * matchingProductObject.getPriceCents();
     totalShippingAndHandlingCents += matchingDataObject.deliveryPrice;
   });
   let totalBeforeTaxCents = productsPriceCents + totalShippingAndHandlingCents;
@@ -78,7 +79,7 @@ function makeEventListeners() {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const order = await response.json();
-        addOrder(order);
+        orders.addOrder(order);
         window.location.href = "/orders.html";
       } catch (error) {
         console.log("Error! can't make order");

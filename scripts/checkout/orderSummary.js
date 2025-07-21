@@ -13,58 +13,40 @@ export function renderOrderSummary() {
       const deliveryOption = deliveryOptions.getDeliveryOption(deliveryId);
       const dateString = deliveryOptions.calculateDeliveryDate(deliveryOption);
 
-      return ` <div class="js-cart-item-container-${
-        matchingProduct.id
-      } js-cart-item-container cart-item-container" data-product-id="${
-        matchingProduct.id
-      }">
+      return ` <div class="js-cart-item-container-${matchingProduct.getId()} js-cart-item-container cart-item-container" data-product-id="${matchingProduct.getId()}">
             <div class="delivery-date">Delivery date: ${dateString}</div>
 
             <div class="cart-item-details-grid">
               <img
                 class="product-image"
-                src="${matchingProduct.image}"
+                src="${matchingProduct.getImage()}"
               />
 
               <div class="cart-item-details">
-                <div class="product-name js-product-name-${matchingProduct.id}">
-                  ${matchingProduct.name}
+                <div class="product-name js-product-name-${matchingProduct.getId()}">
+                  ${matchingProduct.getName()}
                 </div>
-                <div class="product-price js-product-price-${
-                  matchingProduct.id
-                }">$${matchingProduct.getPrice()}</div>
+                <div class="product-price js-product-price-${matchingProduct.getId()}">$${matchingProduct.getPrice()}</div>
                 <div class="product-quantity
-								js-product-quantity-${matchingProduct.id}">
-                  <span> Quantity:<span class="js-quantity-label-${
-                    matchingProduct.id
-                  } quantity-label"> ${cartItem.quantity}</span> </span>
-                  <span class="js-update-quantity-link update-quantity-link link-primary" data-product-id = "${
-                    matchingProduct.id
-                  }">
+								js-product-quantity-${matchingProduct.getId()}">
+                  <span> Quantity:<span class="js-quantity-label-${matchingProduct.getId()} quantity-label"> ${
+        cartItem.quantity
+      }</span> </span>
+                  <span class="js-update-quantity-link update-quantity-link link-primary" data-product-id = "${matchingProduct.getId()}">
                     Update
                   </span>
-									<input class="js-quantity-input-${
-                    matchingProduct.id
-                  } js-quantity-input quantity-input" data-product-id = "${
-        matchingProduct.id
-      }"></input>
-									<span class="js-save-quantity-link js-save-quantity-link-${
-                    matchingProduct.id
-                  } save-quantity-link link-primary" data-product-id = "${
-        matchingProduct.id
-      }">Save</span>
-                  <span class="js-delete-quantity-link delete-quantity-link link-primary js-delete-link-${
-                    matchingProduct.id
-                  }" 
+									<input class="js-quantity-input-${matchingProduct.getId()} js-quantity-input quantity-input" data-product-id = "${matchingProduct.getId()}"></input>
+									<span class="js-save-quantity-link js-save-quantity-link-${matchingProduct.getId()} save-quantity-link link-primary" data-product-id = "${matchingProduct.getId()}">Save</span>
+                  <span class="js-delete-quantity-link delete-quantity-link link-primary js-delete-link-${matchingProduct.getId()}" 
 									
-									data-product-id = "${matchingProduct.id}">
+									data-product-id = "${matchingProduct.getId()}">
                     Delete
                   </span>
                 </div>
               </div>
 
               <div class="delivery-options">
-                ${renderDeliveryOptions(matchingProduct.id, cartItem)}
+                ${renderDeliveryOptions(matchingProduct.getId(), cartItem)}
               </div>
             </div>
           </div>`;

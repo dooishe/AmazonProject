@@ -7,10 +7,8 @@ describe("test suite: integration test for orderSummary page", () => {
     const productId2 = "54e0eccd-8f36-462b-b68a-8182611d9add";
     const productName1 = "Black and Gray Athletic Cotton Socks - 6 Pairs";
     const productName2 = "2 Slot Toaster - Black";
-    beforeAll((done) => {
-      loadProductsFetch().then(() => {
-        done();
-      });
+    beforeAll(async () => {
+      await loadProductsFetch();
     });
     beforeEach(() => {
       const container = document.querySelector(".js-test-container");

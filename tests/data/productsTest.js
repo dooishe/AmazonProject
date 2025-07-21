@@ -14,14 +14,14 @@ describe("test suite: class Product", () => {
     });
   });
   it("right properties for generated object", () => {
-    expect(product.id).toBe("efafasdfewafaw-sdfasf-1213sef-43");
-    expect(product.image).toBe("images/products/bmw-M5.png");
-    expect(product.name).toBe("BMW M5 black edition");
-    expect(product.rating).toEqual({
+    expect(product.getId()).toBe("efafasdfewafaw-sdfasf-1213sef-43");
+    expect(product.getImage()).toBe("images/products/bmw-M5.png");
+    expect(product.getName()).toBe("BMW M5 black edition");
+    expect(product.getRating()).toEqual({
       stars: 4.5,
       count: 3,
     });
-    expect(product.priceCents).toBe(6250000);
+    expect(product.getPriceCents()).toBe(6250000);
   });
   it("method getStarsUrl return right url", () => {
     expect(product.getStarsUrl()).toBe("../images/ratings/rating-45.png");
@@ -50,19 +50,21 @@ describe("test suite: class Clothing", () => {
     });
   });
   it("right properties for generated object", () => {
-    expect(productClothing.id).toBe("5968897c-4d27-4872-89f6-5bcb052746d7");
-    expect(productClothing.image).toBe(
+    expect(productClothing.getId()).toBe(
+      "5968897c-4d27-4872-89f6-5bcb052746d7"
+    );
+    expect(productClothing.getImage()).toBe(
       "images/products/women-chiffon-beachwear-coverup-black.jpg"
     );
-    expect(productClothing.name).toBe(
+    expect(productClothing.getName()).toBe(
       "Women's Chiffon Beachwear Cover Up - Black"
     );
-    expect(productClothing.rating).toEqual({
+    expect(productClothing.getRating()).toEqual({
       stars: 4.5,
       count: 235,
     });
-    expect(productClothing.priceCents).toBe(2070);
-    expect(productClothing.sizeChartLink).toBe(
+    expect(productClothing.getPriceCents()).toBe(2070);
+    expect(productClothing.getSizeChartLink()).toBe(
       "images/clothing-size-chart.png"
     );
   });
@@ -98,20 +100,24 @@ describe("test suite: class Appliance", () => {
     });
   });
   it("right properties for generated object", () => {
-    expect(productClothing.id).toBe("54e0eccd-8f36-462b-b68a-8182611d9add");
-    expect(productClothing.image).toBe(
+    expect(productClothing.getId()).toBe(
+      "54e0eccd-8f36-462b-b68a-8182611d9add"
+    );
+    expect(productClothing.getImage()).toBe(
       "images/products/black-2-slot-toaster.jpg"
     );
-    expect(productClothing.name).toBe("2 Slot Toaster - Black");
-    expect(productClothing.rating).toEqual({
+    expect(productClothing.getName()).toBe("2 Slot Toaster - Black");
+    expect(productClothing.getRating()).toEqual({
       stars: 5,
       count: 2197,
     });
-    expect(productClothing.priceCents).toBe(1899);
-    expect(productClothing.instructionsLink).toBe(
+    expect(productClothing.getPriceCents()).toBe(1899);
+    expect(productClothing.getInstructionsLink()).toBe(
       "images/appliance-instructions.png"
     );
-    expect(productClothing.warrantyLink).toBe("images/appliance-warranty.png");
+    expect(productClothing.getWarrantyLink()).toBe(
+      "images/appliance-warranty.png"
+    );
   });
   it("method getStarsUrl return right url", () => {
     expect(productClothing.getStarsUrl()).toBe(

@@ -72,13 +72,8 @@ export class Cart {
 }
 export const cart = new Cart("cart");
 
-export function loadCartFetch() {
-  const promise = fetch("https://supersimplebackend.dev/cart")
-    .then((response) => {
-      return response.text();
-    })
-    .then((cartData) => {
-      console.log(cartData);
-    });
-  return promise;
+export async function loadCartFetch() {
+  const response = await fetch("https://supersimplebackend.dev/cart");
+  const cartData = await response.text();
+  console.log(cartData);
 }

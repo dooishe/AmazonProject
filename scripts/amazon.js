@@ -13,12 +13,12 @@ function renderHtml() {
           <div class="product-image-container">
             <img
               class="product-image"
-              src="${product.image}"
+              src="${product.getImage()}"
             />
           </div>
 
           <div class="product-name limit-text-to-2-lines">
-            ${product.name}
+            ${product.getName()}
           </div>
 
           <div class="product-rating-container">
@@ -27,14 +27,14 @@ function renderHtml() {
               src=${product.getStarsUrl()}
             />
             <div class="product-rating-count link-primary">${
-              product.rating.count
+              product.getRating().count
             }</div>
           </div>
 
           <div class="product-price">$${product.getPrice()}</div>
 
           <div class="product-quantity-container">
-            <select class="js-quantity-selector-${product.id}">
+            <select class="js-quantity-selector-${product.getId()}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -50,13 +50,13 @@ function renderHtml() {
 					${product.extraInfoHtml()}
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart js-added-to-cart${product.id}">
+          <div class="added-to-cart js-added-to-cart${product.getId()}">
             <img src="images/icons/checkmark.png" />
             Added
           </div>
 
           <button class="js-add-to-cart-button add-to-cart-button button-primary"
-					data-product-id='${product.id}'>Add to Cart</button>
+					data-product-id='${product.getId()}'>Add to Cart</button>
         </div>`
     )
     .join("");

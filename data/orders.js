@@ -1,11 +1,20 @@
-export const orders = JSON.parse(localStorage.getItem("orders")) || [];
-
-export function addOrder(order) {
-  orders.unshift(order);
-  console.log(orders);
-  saveToLocalStorage();
+class Order {
+  #orders;
+  constructor() {
+    this.#loadFromLocalStorage();
+  }
+  #loadFromLocalStorage() {
+    this.#orders = JSON.parse(localStorage.getItem("orders")) || [];
+  }
+  addOrder(order) {
+    this.#orders.unshift(order);
+    this.#saveToLocalStorage();
+  }
+  #saveToLocalStorage() {
+    localStorage.setItem("orders", JSON.stringify(this.#orders));
+  }
+  getOrders() {
+    return this.#orders;
+  }
 }
-
-function saveToLocalStorage() {
-  localStorage.setItem("orders", JSON.stringify(orders));
-}
+export const orders = new Order();

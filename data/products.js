@@ -2,7 +2,7 @@ import { centsToDollars } from "../scripts/utils/money.js";
 export function getProduct(productId) {
   let matchingProduct;
   products.forEach((cartProduct) => {
-    if (cartProduct.id === productId) {
+    if (cartProduct.getId() === productId) {
       matchingProduct = cartProduct;
     }
   });
@@ -10,23 +10,38 @@ export function getProduct(productId) {
 }
 
 export class Product {
-  id;
-  image;
-  name;
-  rating;
-  priceCents;
+  #id;
+  #image;
+  #name;
+  #rating;
+  #priceCents;
   constructor(productDetails) {
-    this.id = productDetails.id;
-    this.image = productDetails.image;
-    this.name = productDetails.name;
-    this.rating = productDetails.rating;
-    this.priceCents = productDetails.priceCents;
+    this.#id = productDetails.id;
+    this.#image = productDetails.image;
+    this.#name = productDetails.name;
+    this.#rating = productDetails.rating;
+    this.#priceCents = productDetails.priceCents;
+  }
+  getId() {
+    return this.#id;
+  }
+  getImage() {
+    return this.#image;
+  }
+  getName() {
+    return this.#name;
+  }
+  getRating() {
+    return this.#rating;
+  }
+  getPriceCents() {
+    return this.#priceCents;
   }
   getStarsUrl() {
-    return `../images/ratings/rating-${this.rating.stars * 10}.png`;
+    return `../images/ratings/rating-${this.#rating.stars * 10}.png`;
   }
   getPrice() {
-    return centsToDollars(this.priceCents);
+    return centsToDollars(this.#priceCents);
   }
   extraInfoHtml() {
     return "";
@@ -34,31 +49,40 @@ export class Product {
 }
 
 export class Clothing extends Product {
-  sizeChartLink;
+  #sizeChartLink;
   constructor(productDetails) {
     super(productDetails);
-    this.sizeChartLink = productDetails.sizeChartLink;
+    this.#sizeChartLink = productDetails.sizeChartLink;
   }
   extraInfoHtml() {
     return `
-		<a href="${this.sizeChartLink}">Size chart</a>
+		<a href="${this.#sizeChartLink}">Size chart</a>
 		`;
+  }
+  getSizeChartLink() {
+    return this.#sizeChartLink;
   }
 }
 
 export class Appliance extends Product {
-  instructionsLink;
-  warrantyLink;
+  #instructionsLink;
+  #warrantyLink;
   constructor(productDetails) {
     super(productDetails);
-    this.instructionsLink = productDetails.instructionsLink;
-    this.warrantyLink = productDetails.warrantyLink;
+    this.#instructionsLink = productDetails.instructionsLink;
+    this.#warrantyLink = productDetails.warrantyLink;
   }
   extraInfoHtml() {
     return `
-		<a href="${this.instructionsLink}">Instructions</a>
-		<a href="${this.warrantyLink}">Warranty</a>
+		<a href="${this.#instructionsLink}">Instructions</a>
+		<a href="${this.#warrantyLink}">Warranty</a>
 		`;
+  }
+  getInstructionsLink() {
+    return this.#instructionsLink;
+  }
+  getWarrantyLink() {
+    return this.#warrantyLink;
   }
 }
 
@@ -73,10 +97,17 @@ export function loadProductsFetch() {
       products = productsData.map((productDetails) => {
         if (productDetails.type === "clothing")
           return new Clothing(productDetails);
-        else if (productDetails.type === "appliance")
-          return new Appliance(productDetails);
+        else if (productDetails.keywords.includes("appliances")) {
+          productDetails.instructionsLink =
+            "../images/appliance-instructions.png";
+          productDetails.warrantyLink = "../images/appliance-warranty.png";
+          const appliance = new Appliance(productDetails);
+          return appliance;
+        }
+
         return new Product(productDetails);
       });
+
       console.log("load products");
     })
     .catch((error) => {
