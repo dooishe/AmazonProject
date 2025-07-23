@@ -3,6 +3,7 @@ import { centsToDollars } from "./utils/money.js";
 import { getProduct, loadProductsFetch } from "../data/products.js";
 import { cart } from "../data/cart.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
+import { updateCartQuantity } from "./utils/cart.js";
 async function loadPage() {
   try {
     await loadProductsFetch();
@@ -42,7 +43,7 @@ function renderOrders() {
           </div>
 
           <div class="order-details-grid">
-            ${renderOrder(order.products)}
+            ${renderOrder(order.products, order.id)}
           </div>
         </div>
 				
@@ -51,7 +52,7 @@ function renderOrders() {
     .join("");
   makeEventListeners();
 }
-function renderOrder(orderProducts) {
+function renderOrder(orderProducts, orderId) {
   let orderHTML = orderProducts
     .map((product) => {
       const matchingProduct = getProduct(product.productId);
@@ -77,7 +78,9 @@ function renderOrder(orderProducts) {
             </div>
 
             <div class="product-actions">
-              <a href="tracking.html">
+              <a href="tracking.html?orderId=${encodeURIComponent(
+                orderId
+              )}&productId=${encodeURIComponent(product.productId)}">
                 <button class="track-package-button button-secondary">
                   Track package
                 </button>
@@ -87,11 +90,6 @@ function renderOrder(orderProducts) {
     })
     .join("");
   return orderHTML;
-}
-function updateCartQuantity() {
-  //здесь возможная проблема обновления количества товаров в корзине на 3
-  document.querySelector(".js-cart-quantity").innerText =
-    cart.calculateCartQuantity();
 }
 function makeEventListeners() {
   document

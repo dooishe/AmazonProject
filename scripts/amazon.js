@@ -1,6 +1,6 @@
 import { products, loadProductsFetch } from "../data/products.js";
 import { cart } from "../data/cart.js";
-
+import { updateCartQuantity } from "./utils/cart.js";
 async function loadPage() {
   try {
     await loadProductsFetch();
@@ -69,10 +69,6 @@ function renderAmazon() {
     )
     .join("");
   makeEventListeners();
-}
-function updateCartQuantity() {
-  const cartQuantity = cart.calculateCartQuantity();
-  document.querySelector(".js-cart-quantity").textContent = `${cartQuantity}`;
 }
 function makeEventListeners() {
   document.querySelectorAll(".js-add-to-cart-button").forEach((button) => {
