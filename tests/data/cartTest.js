@@ -6,7 +6,7 @@ describe("test suite: tests for cart methods", () => {
     });
     it("adds a new product to the cart", () => {
       cart.setCartItems([]);
-      cart.addToCart("efafasdfewafaw-sdfasf-1213sef-43");
+      cart.addToCart("efafasdfewafaw-sdfasf-1213sef-43", 1);
       expect(cart.getCartItems().length).toBe(1);
       expect(localStorage.setItem).toHaveBeenCalledTimes(1);
       expect(localStorage.setItem).toHaveBeenCalledWith(
@@ -15,7 +15,7 @@ describe("test suite: tests for cart methods", () => {
           {
             productId: "efafasdfewafaw-sdfasf-1213sef-43",
             quantity: 1,
-            deliveryId: "1",
+            deliveryOptionId: "1",
           },
         ])
       );
@@ -29,7 +29,7 @@ describe("test suite: tests for cart methods", () => {
         {
           productId: "efafasdfewafaw-sdfasf-1213sef-43",
           quantity: 1,
-          deliveryId: "1",
+          deliveryOptionId: "1",
         },
       ]);
 
@@ -42,7 +42,7 @@ describe("test suite: tests for cart methods", () => {
           {
             productId: "efafasdfewafaw-sdfasf-1213sef-43",
             quantity: 2,
-            deliveryId: "1",
+            deliveryOptionId: "1",
           },
         ])
       );
@@ -59,7 +59,7 @@ describe("test suite: tests for cart methods", () => {
         {
           productId: "efafasdfewafaw-sdfasf-1213sef-43",
           quantity: 1,
-          deliveryId: "1",
+          deliveryOptionId: "1",
         },
       ]);
     });
@@ -86,7 +86,7 @@ describe("test suite: tests for cart methods", () => {
           {
             productId: "efafasdfewafaw-sdfasf-1213sef-43",
             quantity: 1,
-            deliveryId: "1",
+            deliveryOptionId: "1",
           },
         ])
       );
@@ -99,7 +99,7 @@ describe("test suite: tests for cart methods", () => {
         {
           productId: "efafasdfewafaw-sdfasf-1213sef-43",
           quantity: 1,
-          deliveryId: "1",
+          deliveryOptionId: "1",
         },
       ]);
     });
@@ -110,7 +110,7 @@ describe("test suite: tests for cart methods", () => {
         "efafasdfewafaw-sdfasf-1213sef-43"
       );
       expect(cart.getCartItems()[0].quantity).toBe(1);
-      expect(cart.getCartItems()[0].deliveryId).toBe("3");
+      expect(cart.getCartItems()[0].deliveryOptionId).toBe("3");
       expect(localStorage.setItem).toHaveBeenCalledTimes(1);
       expect(localStorage.setItem).toHaveBeenCalledWith(
         "cart",
@@ -118,7 +118,7 @@ describe("test suite: tests for cart methods", () => {
           {
             productId: "efafasdfewafaw-sdfasf-1213sef-43",
             quantity: 1,
-            deliveryId: "3",
+            deliveryOptionId: "3",
           },
         ])
       );
@@ -130,7 +130,7 @@ describe("test suite: tests for cart methods", () => {
         "efafasdfewafaw-sdfasf-1213sef-43"
       );
       expect(cart.getCartItems()[0].quantity).toBe(1);
-      expect(cart.getCartItems()[0].deliveryId).toBe("1");
+      expect(cart.getCartItems()[0].deliveryOptionId).toBe("1");
       expect(localStorage.setItem).toHaveBeenCalledTimes(0);
     });
     it("does nothing if delivery option does not exist", () => {
@@ -140,7 +140,7 @@ describe("test suite: tests for cart methods", () => {
         "efafasdfewafaw-sdfasf-1213sef-43"
       );
       expect(cart.getCartItems()[0].quantity).toBe(1);
-      expect(cart.getCartItems()[0].deliveryId).toBe("1");
+      expect(cart.getCartItems()[0].deliveryOptionId).toBe("1");
       expect(localStorage.setItem).toHaveBeenCalledTimes(0);
     });
   });

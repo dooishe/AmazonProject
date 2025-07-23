@@ -1,10 +1,18 @@
 import { products, loadProductsFetch } from "../data/products.js";
 import { cart } from "../data/cart.js";
-loadProductsFetch().then(() => {
+
+async function loadPage() {
+  try {
+    await loadProductsFetch();
+  } catch (er) {
+    console.log("Unexpected errorrr. Please try again later");
+    console.log(er);
+  }
   renderAmazon();
-  makeEventListeners();
   updateCartQuantity();
-});
+}
+loadPage();
+
 function renderAmazon() {
   document.querySelector(".js-products-grid").innerHTML = products
     .map(
@@ -60,6 +68,7 @@ function renderAmazon() {
         </div>`
     )
     .join("");
+  makeEventListeners();
 }
 function updateCartQuantity() {
   const cartQuantity = cart.calculateCartQuantity();

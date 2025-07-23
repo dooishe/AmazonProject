@@ -10,7 +10,7 @@ export function renderPaymentSummary() {
   cart.getCartItems().forEach((cartItem) => {
     const matchingProductObject = getProduct(cartItem.productId);
     const matchingDataObject = deliveryOptions.getDeliveryOption(
-      cartItem.deliveryId
+      cartItem.deliveryOptionId
     );
     productsPriceCents +=
       cartItem.quantity * matchingProductObject.getPriceCents();

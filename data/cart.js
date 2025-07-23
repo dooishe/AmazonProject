@@ -43,8 +43,8 @@ export class Cart {
     } else {
       this.#cartItems.push({
         productId,
-        quantity: 1,
-        deliveryId: "1",
+        quantity: quantity,
+        deliveryOptionId: "1",
       });
     }
     this.#saveToLocalStorage();
@@ -69,7 +69,7 @@ export class Cart {
     });
     if (!matchingItem) return;
     if (!deliveryOptions.isValidOptionId(newDateId)) return;
-    matchingItem.deliveryId = newDateId;
+    matchingItem.deliveryOptionId = newDateId;
     this.#saveToLocalStorage();
   }
   getCartItems() {
@@ -80,9 +80,3 @@ export class Cart {
   }
 }
 export const cart = new Cart("cart");
-
-export async function loadCartFetch() {
-  const response = await fetch("https://supersimplebackend.dev/cart");
-  const cartData = await response.text();
-  console.log(cartData);
-}

@@ -45,7 +45,7 @@ class DeliveryOptions {
 }
 export const deliveryOptions = new DeliveryOptions([
   {
-    id: "3",
+    id: "1",
     deliveryTime: 7,
     deliveryPrice: 0,
   },
@@ -56,7 +56,7 @@ export const deliveryOptions = new DeliveryOptions([
     deliveryPrice: 499,
   },
   {
-    id: "1",
+    id: "3",
     deliveryPrice: 999,
     deliveryTime: 1,
   },

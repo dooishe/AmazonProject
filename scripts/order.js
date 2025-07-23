@@ -1,19 +1,25 @@
 import { orders } from "../data/orders.js";
-import { formatIsoToMonthDay } from "./utils/day.js";
 import { centsToDollars } from "./utils/money.js";
 import { getProduct, loadProductsFetch } from "../data/products.js";
 import { cart } from "../data/cart.js";
-loadProductsFetch().then(() => {
+import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
+async function loadPage() {
+  try {
+    await loadProductsFetch();
+  } catch (er) {
+    console.log("Unexpected error. Please try again later");
+    console.log(er);
+  }
   updateCartQuantity();
   renderOrders();
-});
+}
+loadPage();
 
-console.log(orders.getOrders());
 function renderOrders() {
   document.querySelector(".js-orders").innerHTML = orders
     .getOrders()
     .map((order) => {
-      const formattedPlacedDate = formatIsoToMonthDay(order.orderTime);
+      const formattedPlacedDate = dayjs(order.orderTime).format("MMMM D");
       return `
       <div class="orders-grid">
         <div class="order-container">
@@ -43,13 +49,14 @@ function renderOrders() {
 `;
     })
     .join("");
+  makeEventListeners();
 }
 function renderOrder(orderProducts) {
   let orderHTML = orderProducts
     .map((product) => {
       const matchingProduct = getProduct(product.productId);
-      const formattedDeliveryDate = formatIsoToMonthDay(
-        product.estimatedDeliveryTime
+      const formattedDeliveryDate = dayjs(product.estimatedDeliveryTime).format(
+        "MMMM D"
       );
       return `<div class="product-image-container">
               <img src=${matchingProduct.getImage()} />
@@ -61,7 +68,9 @@ function renderOrder(orderProducts) {
               </div>
               <div class="product-delivery-date">Arriving on: ${formattedDeliveryDate}</div>
               <div class="product-quantity">Quantity: ${product.quantity}</div>
-              <button class="buy-again-button button-primary">
+              <button class="js-buy-again-button buy-again-button button-primary"
+							data-product-id=${product.productId}
+							data-quantity=${product.quantity}>
                 <img class="buy-again-icon" src="images/icons/buy-again.png" />
                 <span class="buy-again-message">Buy it again</span>
               </button>
@@ -80,6 +89,19 @@ function renderOrder(orderProducts) {
   return orderHTML;
 }
 function updateCartQuantity() {
+  //здесь возможная проблема обновления количества товаров в корзине на 3
   document.querySelector(".js-cart-quantity").innerText =
     cart.calculateCartQuantity();
+}
+function makeEventListeners() {
+  document
+    .querySelectorAll(".js-buy-again-button")
+    .forEach((buyAgainButton) => {
+      buyAgainButton.addEventListener("click", () => {
+        const productId = buyAgainButton.dataset.productId;
+        const quantityString = buyAgainButton.dataset.quantity;
+        cart.addToCart(productId, Number(quantityString));
+        updateCartQuantity();
+      });
+    });
 }

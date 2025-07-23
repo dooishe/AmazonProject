@@ -10,7 +10,7 @@ export function renderOrderSummary() {
     .getCartItems()
     .map((cartItem) => {
       const matchingProduct = getProduct(cartItem.productId);
-      const deliveryId = cartItem.deliveryId;
+      const deliveryId = cartItem.deliveryOptionId;
       const deliveryOption = deliveryOptions.getDeliveryOption(deliveryId);
       const dateString = deliveryOptions.calculateDeliveryDate(deliveryOption);
 
@@ -65,7 +65,7 @@ function renderDeliveryOptions(matchingProductId, cartItem) {
       deliveryOption.deliveryPrice === 0
         ? `FREE Shipping`
         : `$${centsToDollars(deliveryOption.deliveryPrice)}`;
-    const isChecked = deliveryOption.id === cartItem.deliveryId;
+    const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
     html += `<div class="delivery-option js-delivery-option js-delivery-option-${matchingProductId}-${
       deliveryOption.id
     }"

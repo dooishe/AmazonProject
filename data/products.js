@@ -88,31 +88,21 @@ export class Appliance extends Product {
 
 export let products = [];
 
-export function loadProductsFetch() {
-  const promise = fetch("https://supersimplebackend.dev/products")
-    .then((response) => {
-      return response.json();
-    })
-    .then((productsData) => {
-      products = productsData.map((productDetails) => {
-        if (productDetails.type === "clothing")
-          return new Clothing(productDetails);
-        else if (productDetails.keywords.includes("appliances")) {
-          productDetails.instructionsLink =
-            "../images/appliance-instructions.png";
-          productDetails.warrantyLink = "../images/appliance-warranty.png";
-          const appliance = new Appliance(productDetails);
-          return appliance;
-        }
+export async function loadProductsFetch() {
+  const response = await fetch("https://supersimplebackend.dev/products");
+  if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+  const productsData = await response.json();
+  products = productsData.map((productDetails) => {
+    if (productDetails.type === "clothing") return new Clothing(productDetails);
+    else if (productDetails.keywords.includes("appliances")) {
+      productDetails.instructionsLink = "../images/appliance-instructions.png";
+      productDetails.warrantyLink = "../images/appliance-warranty.png";
+      const appliance = new Appliance(productDetails);
+      return appliance;
+    }
 
-        return new Product(productDetails);
-      });
+    return new Product(productDetails);
+  });
 
-      console.log("load products");
-    })
-    .catch((error) => {
-      console.log("Unexpected error. Please try again later");
-      console.log(error);
-    });
-  return promise;
+  console.log("load products");
 }

@@ -23,12 +23,12 @@ describe("test suite: integration test for orderSummary page", () => {
         {
           productId: productId1,
           quantity: 2,
-          deliveryId: "1",
+          deliveryOptionId: "1",
         },
         {
           productId: productId2,
           quantity: 1,
-          deliveryId: "2",
+          deliveryOptionId: "2",
         },
       ]);
       renderOrderSummary();
@@ -92,12 +92,12 @@ describe("test suite: integration test for orderSummary page", () => {
         2
       );
       expect(cart.getCartItems()[0].productId).toBe(productId1);
-      expect(cart.getCartItems()[0].deliveryId).toBe("3");
+      expect(cart.getCartItems()[0].deliveryOptionId).toBe("3");
       expect(
         document.querySelector(".js-payment-shipping-and-handling").innerText
-      ).toBe("$4.99");
+      ).toBe("$14.98");
       expect(document.querySelector(".js-payment-total-price").innerText).toBe(
-        "$50.36"
+        "$61.35"
       );
     });
   });
