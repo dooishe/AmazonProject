@@ -16,7 +16,14 @@ class Order {
   getOrders() {
     return this.#orders;
   }
-  getMatchingProduct(orderId, productId) {
+  getOrder(orderId) {
+    let matchingOrder;
+    orders.getOrders().forEach((order) => {
+      if (order.id === orderId) matchingOrder = order;
+    });
+    return matchingOrder;
+  }
+  getProduct(orderId, productId) {
     let matchingOrder;
     let matchingProduct;
     orders.getOrders().forEach((order) => {

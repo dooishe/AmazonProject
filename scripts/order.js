@@ -4,6 +4,7 @@ import { getProduct, loadProductsFetch } from "../data/products.js";
 import { cart } from "../data/cart.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 import { updateCartQuantity } from "./utils/cart.js";
+import { deliveryOptions } from "../data/deliveryOptions.js";
 async function loadPage() {
   try {
     await loadProductsFetch();
@@ -43,7 +44,7 @@ function renderOrders() {
           </div>
 
           <div class="order-details-grid">
-            ${renderOrder(order.products, order.id)}
+            ${renderOrder(order.products, order.id, order)}
           </div>
         </div>
 				
@@ -52,13 +53,20 @@ function renderOrders() {
     .join("");
   makeEventListeners();
 }
-function renderOrder(orderProducts, orderId) {
+function renderOrder(orderProducts, orderId, order) {
+  //испоьльзовать getOptionFromTwoDates()
   let orderHTML = orderProducts
     .map((product) => {
-      const matchingProduct = getProduct(product.productId);
-      const formattedDeliveryDate = dayjs(product.estimatedDeliveryTime).format(
-        "MMMM D"
+      const deliveryOption = deliveryOptions.getDeliveryOptionFromTwoDates(
+        order.orderTime,
+        product.estimatedDeliveryTime
       );
+      const arrivingDate = deliveryOptions.calculateDeliveryDate(
+        deliveryOption,
+        order.orderTime,
+        "MMMM, D"
+      );
+      const matchingProduct = getProduct(product.productId);
       return `<div class="product-image-container">
               <img src=${matchingProduct.getImage()} />
             </div>
@@ -67,7 +75,7 @@ function renderOrder(orderProducts, orderId) {
               <div class="product-name">
                ${matchingProduct.getName()}
               </div>
-              <div class="product-delivery-date">Arriving on: ${formattedDeliveryDate}</div>
+              <div class="product-delivery-date">Arriving on: ${arrivingDate}</div>
               <div class="product-quantity">Quantity: ${product.quantity}</div>
               <button class="js-buy-again-button buy-again-button button-primary"
 							data-product-id=${product.productId}
@@ -95,11 +103,29 @@ function makeEventListeners() {
   document
     .querySelectorAll(".js-buy-again-button")
     .forEach((buyAgainButton) => {
+      let addedMessageTimeoutId;
       buyAgainButton.addEventListener("click", () => {
+        let timeoutId;
         const productId = buyAgainButton.dataset.productId;
         const quantityString = buyAgainButton.dataset.quantity;
         cart.addToCart(productId, Number(quantityString));
         updateCartQuantity();
+
+        if (buyAgainButton.textContent.trim() === "Added") {
+          clearTimeout(addedMessageTimeoutId);
+          timeoutId = setTimeout(() => {
+            buyAgainButton.innerHTML = `<img class="buy-again-icon" src="images/icons/buy-again.png" />
+                <span class="buy-again-message">Buy it again</span>`;
+          }, 1000);
+        } else {
+          buyAgainButton.textContent = `Added`;
+          timeoutId = setTimeout(() => {
+            buyAgainButton.innerHTML = `<img class="buy-again-icon" src="images/icons/buy-again.png" />
+                <span class="buy-again-message">Buy it again</span>`;
+          }, 1000);
+        }
+
+        addedMessageTimeoutId = timeoutId;
       });
     });
 }
