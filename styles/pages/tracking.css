@@ -79,3 +79,8 @@
   border-radius: 50px;
   width: 50%;
 }
+
+.delivered-message {
+  font-size: 25px;
+  font-weight: 900;
+}

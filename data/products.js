@@ -15,12 +15,14 @@ export class Product {
   #name;
   #rating;
   #priceCents;
+  #keyWords;
   constructor(productDetails) {
     this.#id = productDetails.id;
     this.#image = productDetails.image;
     this.#name = productDetails.name;
     this.#rating = productDetails.rating;
     this.#priceCents = productDetails.priceCents;
+    this.#keyWords = productDetails.keywords;
   }
   getId() {
     return this.#id;
@@ -45,6 +47,9 @@ export class Product {
   }
   extraInfoHtml() {
     return "";
+  }
+  getKeyWords() {
+    return this.#keyWords;
   }
 }
 

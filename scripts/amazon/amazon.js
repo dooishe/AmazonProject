@@ -1,6 +1,7 @@
-import { products, loadProductsFetch } from "../data/products.js";
-import { cart } from "../data/cart.js";
-import { updateCartQuantity } from "./utils/cart.js";
+import { products, loadProductsFetch } from "../../../data/products.js";
+import { cart } from "../../data/cart.js";
+import { updateCartQuantity } from "../utils/cart.js";
+import { renderAmazonHeader } from "./amazonHeader.js";
 async function loadPage() {
   try {
     await loadProductsFetch();
@@ -8,13 +9,31 @@ async function loadPage() {
     console.log("Unexpected errorrr. Please try again later");
     console.log(er);
   }
-  renderAmazon();
+  renderAmazonHeader();
   updateCartQuantity();
+  renderAmazon();
 }
 loadPage();
 
 function renderAmazon() {
-  document.querySelector(".js-products-grid").innerHTML = products
+  const url = new URL(window.location.href);
+  const searchQuery = url.searchParams.get("search_query");
+  let filteredProducts = products;
+  if (searchQuery) {
+    filteredProducts = products.filter((product) => {
+      let matchingKeyWord = false;
+      product.getKeyWords().forEach((keyWord) => {
+        if (keyWord.toLowerCase().includes(searchQuery.toLowerCase()))
+          matchingKeyWord = true;
+      });
+      return (
+        matchingKeyWord ||
+        product.getName().toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    });
+  }
+
+  document.querySelector(".js-products-grid").innerHTML = filteredProducts
     .map(
       (product) =>
         ` <div class="product-container">
@@ -71,7 +90,7 @@ function renderAmazon() {
   makeEventListeners();
 }
 function makeEventListeners() {
-  document.querySelectorAll(".js-add-to-cart-button").forEach((button) => {
+  document.querySelectorAll(".js-add-to-cart-button")?.forEach((button) => {
     let addedMessageTimeoutId;
     button.addEventListener("click", () => {
       let timeoutId;
@@ -97,5 +116,19 @@ function makeEventListeners() {
       }
       addedMessageTimeoutId = timeoutId;
     });
+  });
+
+  document.querySelector(".js-search-button")?.addEventListener("click", () => {
+    const inputElement = document.querySelector(".js-search-bar");
+    if (!inputElement) {
+      console.error("Input element not found");
+      return;
+    }
+    const inputValue = inputElement.value.trim();
+    if (inputValue) {
+      window.location.href = `/amazon.html?search_query=${encodeURIComponent(
+        inputValue
+      )}`;
+    }
   });
 }

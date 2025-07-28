@@ -80,6 +80,7 @@ function makeEventListeners() {
         }
         const order = await response.json();
         orders.addOrder(order);
+        cart.resetCart();
         window.location.href = "/orders.html";
       } catch (error) {
         console.log("Error! can't make order");

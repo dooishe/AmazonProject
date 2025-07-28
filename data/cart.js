@@ -78,5 +78,9 @@ export class Cart {
   setCartItems(cartItems) {
     this.#cartItems = cartItems;
   }
+  resetCart() {
+    this.#cartItems = [];
+    this.#saveToLocalStorage();
+  }
 }
 export const cart = new Cart("cart");

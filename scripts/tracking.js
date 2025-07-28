@@ -3,11 +3,12 @@ import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 import { getProduct, loadProductsFetch } from "../data/products.js";
 import { updateCartQuantity } from "./utils/cart.js";
 import { deliveryOptions } from "../data/deliveryOptions.js";
-
+import { renderAmazonHeader } from "./amazon/amazonHeader.js";
 async function loadPage() {
   await loadProductsFetch();
-  renderTracking();
+  renderAmazonHeader();
   updateCartQuantity();
+  renderTracking();
 }
 loadPage();
 function renderTracking() {
@@ -38,7 +39,6 @@ function renderTracking() {
       ((today - orderTime) / (deliveryTime - orderTime)) * 100;
     deliveryPercent = Math.min(Math.max(deliveryPercent, 0), 100);
     deliveryPercent = Math.floor(deliveryPercent);
-    console.log(deliveryPercent);
     let currentStage = "";
     if (deliveryPercent < 50) {
       currentStage = "preparing";
@@ -49,6 +49,7 @@ function renderTracking() {
     }
 
     let arrivingDate;
+
     try {
       const deliveryOption = deliveryOptions.getDeliveryOptionFromTwoDates(
         order.orderTime,
@@ -69,15 +70,16 @@ function renderTracking() {
           View all orders
         </a>
 
-        <div class="delivery-date">Arriving on ${arrivingDate}</div>
+        <div class="delivery-date">${
+          today.isBefore(deliveryTime) ? "Arriving on " : "Delivered on "
+        }${arrivingDate}</div>
 
         <div class="product-info">
         </div>
 
         <div class="product-info">Quantity: ${productOrder.quantity}</div>
-
         <img
-          class="product-image"
+       arrivingDateFormatte   class="product-image"
           src="${product.getImage()}"
         />
 

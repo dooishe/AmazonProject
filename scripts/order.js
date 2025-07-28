@@ -5,6 +5,7 @@ import { cart } from "../data/cart.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 import { updateCartQuantity } from "./utils/cart.js";
 import { deliveryOptions } from "../data/deliveryOptions.js";
+import { renderAmazonHeader } from "./amazon/amazonHeader.js";
 async function loadPage() {
   try {
     await loadProductsFetch();
@@ -12,6 +13,7 @@ async function loadPage() {
     console.log("Unexpected error. Please try again later");
     console.log(er);
   }
+  renderAmazonHeader();
   updateCartQuantity();
   renderOrders();
 }
@@ -54,7 +56,6 @@ function renderOrders() {
   makeEventListeners();
 }
 function renderOrder(orderProducts, orderId, order) {
-  //испоьльзовать getOptionFromTwoDates()
   let orderHTML = orderProducts
     .map((product) => {
       const deliveryOption = deliveryOptions.getDeliveryOptionFromTwoDates(
