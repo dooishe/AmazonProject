@@ -38,7 +38,8 @@ export function renderAmazonHeader() {
   makeEventListheners();
 }
 function makeEventListheners() {
-  document.querySelector(".js-search-button")?.addEventListener("click", () => {
+  const searchButton = document.querySelector(".js-search-button");
+  searchButton.addEventListener("click", () => {
     const inputElement = document.querySelector(".js-search-bar");
     if (!inputElement) {
       console.error("Input element not found");
@@ -51,4 +52,11 @@ function makeEventListheners() {
       )}`;
     }
   });
+  document
+    .querySelector(".js-search-bar")
+    .addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        searchButton.click();
+      }
+    });
 }
