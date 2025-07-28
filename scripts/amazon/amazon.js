@@ -117,18 +117,4 @@ function makeEventListeners() {
       addedMessageTimeoutId = timeoutId;
     });
   });
-
-  document.querySelector(".js-search-button")?.addEventListener("click", () => {
-    const inputElement = document.querySelector(".js-search-bar");
-    if (!inputElement) {
-      console.error("Input element not found");
-      return;
-    }
-    const inputValue = inputElement.value.trim();
-    if (inputValue) {
-      window.location.href = `/amazon.html?search_query=${encodeURIComponent(
-        inputValue
-      )}`;
-    }
-  });
 }
