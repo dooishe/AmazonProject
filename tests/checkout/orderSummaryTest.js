@@ -38,66 +38,66 @@ describe("test suite: integration test for orderSummary page", () => {
     });
     it("displays the cart", () => {
       expect(document.querySelectorAll(".js-cart-item-container").length).toBe(
-        2
+        2,
       );
       expect(
-        document.querySelector(`.js-product-quantity-${productId1}`).innerText
+        document.querySelector(`.js-product-quantity-${productId1}`).innerText,
       ).toContain("Quantity: 2");
       expect(
-        document.querySelector(`.js-product-quantity-${productId2}`).innerText
+        document.querySelector(`.js-product-quantity-${productId2}`).innerText,
       ).toContain("Quantity: 1");
       expect(
-        document.querySelector(`.js-product-name-${productId1}`).innerText
+        document.querySelector(`.js-product-name-${productId1}`).innerText,
       ).toBe(productName1);
       expect(
-        document.querySelector(`.js-product-name-${productId2}`).innerText
+        document.querySelector(`.js-product-name-${productId2}`).innerText,
       ).toBe(productName2);
       expect(
-        document.querySelector(`.js-product-price-${productId1}`).innerText
+        document.querySelector(`.js-product-price-${productId1}`).innerText,
       ).toBe("$10.90");
       expect(
-        document.querySelector(`.js-product-price-${productId2}`).innerText
+        document.querySelector(`.js-product-price-${productId2}`).innerText,
       ).toBe("$18.99");
     });
     it("removes a product", () => {
       spyOn(localStorage, "setItem").and.callFake(() => {});
       document.querySelector(`.js-delete-link-${productId1}`).click();
       expect(document.querySelectorAll(".js-cart-item-container").length).toBe(
-        1
+        1,
       );
       expect(
-        document.querySelector(`.js-cart-item-container-${productId1}`)
+        document.querySelector(`.js-cart-item-container-${productId1}`),
       ).toBeNull();
       expect(
-        document.querySelector(`.js-cart-item-container-${productId2}`)
+        document.querySelector(`.js-cart-item-container-${productId2}`),
       ).not.toBeNull();
       expect(cart.getCartItems().length).toBe(1);
       expect(cart.getCartItems()[0].productId).toBe(
-        "54e0eccd-8f36-462b-b68a-8182611d9add"
+        "54e0eccd-8f36-462b-b68a-8182611d9add",
       );
       expect(
-        document.querySelector(`.js-product-name-${productId2}`).innerText
+        document.querySelector(`.js-product-name-${productId2}`).innerText,
       ).toBe(productName2);
       expect(
-        document.querySelector(`.js-product-price-${productId2}`).innerText
+        document.querySelector(`.js-product-price-${productId2}`).innerText,
       ).toBe("$18.99");
     });
     it("updating the delivery option", () => {
       document.querySelector(`.js-delivery-option-${productId1}-${3}`).click();
       expect(
         document.querySelector(`.js-delivery-option-input-${productId1}-${3}`)
-          .checked
+          .checked,
       ).toBeTrue();
       expect(document.querySelectorAll(".js-cart-item-container").length).toBe(
-        2
+        2,
       );
       expect(cart.getCartItems()[0].productId).toBe(productId1);
       expect(cart.getCartItems()[0].deliveryOptionId).toBe("3");
       expect(
-        document.querySelector(".js-payment-shipping-and-handling").innerText
+        document.querySelector(".js-payment-shipping-and-handling").innerText,
       ).toBe("$14.98");
       expect(document.querySelector(".js-payment-total-price").innerText).toBe(
-        "$61.35"
+        "$61.35",
       );
     });
   });

@@ -1,21 +1,8 @@
-import { products, loadProductsFetch } from "../../../data/products.js";
+import { products } from "../../../data/products.js";
 import { cart } from "../../data/cart.js";
 import { updateCartQuantity } from "../utils/cart.js";
-import { renderAmazonHeader } from "./amazonHeader.js";
-async function loadPage() {
-  try {
-    await loadProductsFetch();
-  } catch (er) {
-    console.log("Unexpected errorrr. Please try again later");
-    console.log(er);
-  }
-  renderAmazonHeader();
-  updateCartQuantity();
-  renderAmazon();
-}
-loadPage();
 
-function renderAmazon() {
+export function renderAmazon() {
   const url = new URL(window.location.href);
   const searchQuery = url.searchParams.get("search_query");
   let filteredProducts = products;
@@ -84,7 +71,7 @@ function renderAmazon() {
 
           <button class="js-add-to-cart-button add-to-cart-button button-primary"
 					data-product-id='${product.getId()}'>Add to Cart</button>
-        </div>`
+        </div>`,
     )
     .join("");
   makeEventListeners();
@@ -96,12 +83,12 @@ function makeEventListeners() {
       let timeoutId;
       const { productId } = button.dataset;
       const quantity = Number(
-        document.querySelector(`.js-quantity-selector-${productId}`).value
+        document.querySelector(`.js-quantity-selector-${productId}`).value,
       );
       cart.addToCart(productId, quantity);
       updateCartQuantity();
       const addTextAddedElement = document.querySelector(
-        `.js-added-to-cart${productId}`
+        `.js-added-to-cart${productId}`,
       );
       if (addTextAddedElement.classList.contains("added-to-cart-visible")) {
         clearTimeout(addedMessageTimeoutId);

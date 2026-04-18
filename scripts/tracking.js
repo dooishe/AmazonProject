@@ -1,17 +1,9 @@
 import { orders } from "../data/orders.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
-import { getProduct, loadProductsFetch } from "../data/products.js";
-import { updateCartQuantity } from "./utils/cart.js";
+import { getProduct } from "../data/products.js";
 import { deliveryOptions } from "../data/deliveryOptions.js";
-import { renderAmazonHeader } from "./amazon/amazonHeader.js";
-async function loadPage() {
-  await loadProductsFetch();
-  renderAmazonHeader();
-  updateCartQuantity();
-  renderTracking();
-}
-loadPage();
-function renderTracking() {
+
+export function renderTracking() {
   try {
     const url = new URL(window.location.href);
     const orderId = url.searchParams.get("orderId");
@@ -53,20 +45,19 @@ function renderTracking() {
     try {
       const deliveryOption = deliveryOptions.getDeliveryOptionFromTwoDates(
         order.orderTime,
-        productOrder.estimatedDeliveryTime
+        productOrder.estimatedDeliveryTime,
       );
       arrivingDate = deliveryOptions.calculateDeliveryDate(
         deliveryOption,
         order.orderTime,
-        "MMMM D"
+        "MMMM D",
       );
     } catch (error) {
       arrivingDate = "Couldn't find delivery date";
       console.error("Failed to calculate delivery date:", error);
     }
-    document.querySelector(
-      ".js-order-tracking"
-    ).innerHTML = `<a class="back-to-orders-link link-primary" href="orders.html">
+    document.querySelector(".js-order-tracking").innerHTML =
+      `<a class="back-to-orders-link link-primary" href="orders.html">
           View all orders
         </a>
 

@@ -31,8 +31,8 @@ export function renderOrderSummary() {
                 <div class="product-quantity
 								js-product-quantity-${matchingProduct.getId()}">
                   <span> Quantity:<span class="js-quantity-label-${matchingProduct.getId()} quantity-label"> ${
-        cartItem.quantity
-      }</span> </span>
+                    cartItem.quantity
+                  }</span> </span>
                   <span class="js-update-quantity-link update-quantity-link link-primary" data-product-id = "${matchingProduct.getId()}">
                     Update
                   </span>
@@ -75,8 +75,8 @@ function renderDeliveryOptions(matchingProductId, cartItem) {
                     type="radio"
                     ${isChecked ? "checked" : ""}
                     class="delivery-option-input js-delivery-option-input-${matchingProductId}-${
-      deliveryOption.id
-    }"
+                      deliveryOption.id
+                    }"
                     name="delivery-option-${matchingProductId}"
                   />
                   <div>
@@ -106,7 +106,7 @@ function makeEventListeners() {
       updateButton.addEventListener("click", () => {
         const productId = updateButton.dataset.productId;
         const container = document.querySelector(
-          `.js-cart-item-container-${productId}`
+          `.js-cart-item-container-${productId}`,
         );
         container.classList.add("is-editing-quantity");
       });
@@ -115,7 +115,7 @@ function makeEventListeners() {
     saveButton.addEventListener("click", () => {
       const productId = saveButton.dataset.productId;
       const inputElement = document.querySelector(
-        `.js-quantity-input-${productId}`
+        `.js-quantity-input-${productId}`,
       );
       const inputValue = Number(inputElement.value);
       if (inputValue <= 0 || inputValue >= 1000 || !inputValue) {
@@ -123,10 +123,10 @@ function makeEventListeners() {
         return;
       }
       const productQuantityElement = document.querySelector(
-        `.js-quantity-label-${productId}`
+        `.js-quantity-label-${productId}`,
       );
       const container = document.querySelector(
-        `.js-cart-item-container-${productId}`
+        `.js-cart-item-container-${productId}`,
       );
       productQuantityElement.textContent = inputValue;
       container.classList.remove("is-editing-quantity");
@@ -159,8 +159,7 @@ function makeEventListeners() {
     })*/
   document.querySelectorAll(".js-delivery-option").forEach((element) => {
     element.addEventListener("click", () => {
-      const productId = element.dataset.productId;
-      const deliveryId = element.dataset.deliveryId;
+      const { productId, deliveryId } = element.dataset;
       cart.updateDeliveryId(productId, deliveryId);
       renderOrderSummary();
       renderPaymentSummary();
