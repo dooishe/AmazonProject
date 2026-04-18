@@ -111,3 +111,12 @@ export async function loadProductsFetch() {
 
   console.log("load products");
 }
+
+export async function loadProducts() {
+  try {
+    await loadProductsFetch();
+  } catch (err) {
+    console.error("Failed to load products");
+    console.error(err);
+  }
+}
