@@ -1,7 +1,9 @@
+import { cart } from "../../data/cart.js";
+
 export function renderAmazonHeader() {
-  document.querySelector(
-    ".amazon-header"
-  ).innerHTML = `<div class="amazon-header-left-section">
+  const cartQuantity = cart.calculateCartQuantity();
+  document.querySelector(".amazon-header").innerHTML =
+    `<div class="amazon-header-left-section">
         <a href="amazon.html" class="header-link">
           <img class="amazon-logo" src="images/amazon-logo-white.png" />
           <img
@@ -31,7 +33,7 @@ export function renderAmazonHeader() {
 
         <a class="cart-link header-link" href="checkout.html">
           <img class="cart-icon" src="images/icons/cart-icon.png" />
-          <div class="js-cart-quantity cart-quantity"></div>
+          <div class="js-cart-quantity cart-quantity">${cartQuantity}</div>
           <div class="cart-text">Cart</div>
         </a>
       </div>`;
@@ -48,7 +50,7 @@ function makeEventListheners() {
     const inputValue = inputElement.value.trim();
     if (inputValue) {
       window.location.href = `/amazon.html?search_query=${encodeURIComponent(
-        inputValue
+        inputValue,
       )}`;
     }
   });
