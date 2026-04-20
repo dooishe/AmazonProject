@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor settings
+.vscode/
+
+# Test coverage / reports
+coverage/
+*.lcov
+
+# Build outputs (если появятся позже)
+dist/
+build/
+
+# Temporary files
+*.log
+
+# Optional: local environment
+.env
