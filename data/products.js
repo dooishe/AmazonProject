@@ -120,3 +120,19 @@ export async function loadProducts() {
     console.error(err);
   }
 }
+
+export function setProducts(newProducts) {
+  products.length = 0;
+  const mappedProducts = newProducts.map((productDetails) => {
+    if (productDetails.type === "clothing") return new Clothing(productDetails);
+    else if (productDetails.keywords.includes("appliances")) {
+      productDetails.instructionsLink = "../images/appliance-instructions.png";
+      productDetails.warrantyLink = "../images/appliance-warranty.png";
+      const appliance = new Appliance(productDetails);
+      return appliance;
+    }
+
+    return new Product(productDetails);
+  });
+  products.push(...mappedProducts);
+}

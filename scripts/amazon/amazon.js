@@ -24,28 +24,28 @@ export function renderAmazon() {
     .map(
       (product) =>
         ` <div class="product-container">
-          <div class="product-image-container">
+          <div class="product-image-container ">
             <img
-              class="product-image"
+              class="product-image js-product-image-${product.getId()}"
               src="${product.getImage()}"
             />
           </div>
 
-          <div class="product-name limit-text-to-2-lines">
+          <div class="product-name limit-text-to-2-lines js-product-name-${product.getId()}">
             ${product.getName()}
           </div>
 
           <div class="product-rating-container">
             <img
-              class="product-rating-stars"
+              class="product-rating-stars js-product-rating-stars-${product.getId()}"
               src=${product.getStarsUrl()}
             />
-            <div class="product-rating-count link-primary">${
+            <div class="product-rating-count link-primary js-product-rating-count-${product.getId()}">${
               product.getRating().count
             }</div>
           </div>
 
-          <div class="product-price">$${product.getPrice()}</div>
+          <div class="product-price js-product-price-${product.getId()}">$${product.getPrice()}</div>
 
           <div class="product-quantity-container">
             <select class="js-quantity-selector-${product.getId()}">
@@ -63,13 +63,14 @@ export function renderAmazon() {
           </div>
 					${product.extraInfoHtml()}
           <div class="product-spacer"></div>
-
+            
           <div class="added-to-cart js-added-to-cart${product.getId()}">
             <img src="images/icons/checkmark.png" />
             Added
           </div>
 
           <button class="js-add-to-cart-button add-to-cart-button button-primary"
+          data-testid="add-to-cart"
 					data-product-id='${product.getId()}'>Add to Cart</button>
         </div>`,
     )
