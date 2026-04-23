@@ -14,12 +14,12 @@ export class Cart {
   #saveToLocalStorage() {
     localStorage.setItem(
       this.#localStorageKey,
-      JSON.stringify(this.#cartItems)
+      JSON.stringify(this.#cartItems),
     );
   }
   deleteFromCart(productId) {
     const newCart = this.#cartItems.filter(
-      (item) => item.productId !== productId
+      (item) => item.productId !== productId,
     );
     this.#cartItems = newCart;
     this.#saveToLocalStorage();

@@ -112,15 +112,6 @@ export async function loadProductsFetch() {
   console.log("load products");
 }
 
-export async function loadProducts() {
-  try {
-    await loadProductsFetch();
-  } catch (err) {
-    console.error("Failed to load products");
-    console.error(err);
-  }
-}
-
 export function setProducts(newProducts) {
   products.length = 0;
   const mappedProducts = newProducts.map((productDetails) => {
@@ -135,4 +126,27 @@ export function setProducts(newProducts) {
     return new Product(productDetails);
   });
   products.push(...mappedProducts);
+}
+export function loadHttpRequest(callbackFunc) {
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", "https://supersimplebackend.dev/products");
+  xhr.addEventListener("load", () => {
+    const newProducts = JSON.parse(xhr.response);
+    console.log(newProducts);
+    products = newProducts.map((productDetails) => {
+      if (productDetails.type === "clothing")
+        return new Clothing(productDetails);
+      else if (productDetails.keywords.includes("appliances")) {
+        productDetails.instructionsLink =
+          "../images/appliance-instructions.png";
+        productDetails.warrantyLink = "../images/appliance-warranty.png";
+        const appliance = new Appliance(productDetails);
+        return appliance;
+      }
+      return new Product(productDetails);
+    });
+    callbackFunc();
+  });
+
+  xhr.send();
 }
